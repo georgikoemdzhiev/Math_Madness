@@ -103,11 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void restartTimer() {
-        //reset the timer
-        mCountDownTimer.cancel(); // cancel
-        mCountDownTimer.start();  // then restart
-    }
 
     @Override
     protected void onPause() {
@@ -166,5 +161,11 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(MainActivity.this,StartActivity.class);
         startActivity(intent);
+    }
+
+    private void restartTimer() {
+        //reset the timer
+        mCountDownTimer.cancel(); // cancel
+        mCountDownTimer.start();  // then restart
     }
 }
