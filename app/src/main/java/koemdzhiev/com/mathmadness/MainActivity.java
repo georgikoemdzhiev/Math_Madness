@@ -1,12 +1,15 @@
 package koemdzhiev.com.mathmadness;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView sum;
     private Button mTrueBtn;
     private Button mFalseBtn;
+    private ProgressBar mProgressBar;
+    private CountDownTimer mCountDownTimer;
     Random ifTrue;
     Random digitGenerator;
 
@@ -37,6 +42,21 @@ public class MainActivity extends AppCompatActivity {
         sum = (TextView)findViewById(R.id.sum);
         mTrueBtn = (Button)findViewById(R.id.trueButton);
         mFalseBtn = (Button)findViewById(R.id.falseButton);
+        mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
+
+        mCountDownTimer = new CountDownTimer(10*1000,500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int progress = (int) (millisUntilFinished/100);
+                mProgressBar.setProgress(progress);
+            }
+
+            @Override
+            public void onFinish() {
+                mProgressBar.setProgress(0);
+            }
+        }.start();
+
         ifTrue = new Random();
         digitGenerator = new Random();
 
@@ -50,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     generateMathProblem();
                 }else{
                     //user is incorrect
-                    Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
+                    transferUserToStartScreen();
                 }
             }
         });
@@ -65,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     generateMathProblem();
                 }else{
                     //user is incorrect
-                    Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
+                    transferUserToStartScreen();
                 }
             }
         });
@@ -73,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         generateMathProblem();
 
     }
+
 
 
     @Override
@@ -98,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void generateMathProblem() {
+        //generate math problem
         isMathProblemTrue = ifTrue.nextInt(2);
         Log.d(TAG, isMathProblemTrue + "");
         if(isMathProblemTrue == 1){
@@ -112,5 +134,13 @@ public class MainActivity extends AppCompatActivity {
             int randomSum = digitGenerator.nextInt(100);
             sum.setText(randomSum+"");
         }
+        //reset the timer
+        mCountDownTimer.cancel(); // cancel
+        mCountDownTimer.start();  // then restart
+    }
+    private void transferUserToStartScreen() {
+        Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this,StartActivity.class);
+        startActivity(intent);
     }
 }
