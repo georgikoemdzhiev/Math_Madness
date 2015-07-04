@@ -15,8 +15,7 @@
                 android:value="koemdzhiev.com.mathmadness.StartActivity" />
         </activity>
         <activity
-            android:name=".StartActivity"
-            android:label="@string/title_activity_start" >
+            android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

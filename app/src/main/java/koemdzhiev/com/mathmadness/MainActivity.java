@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
 
         mCountDownTimer = new CountDownTimer(10*1000,500) {
+
             @Override
             public void onTick(long millisUntilFinished) {
                 int progress = (int) (millisUntilFinished/100);
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 mProgressBar.setProgress(0);
+                transferUserToStartScreen();
             }
         }.start();
 
@@ -68,9 +70,12 @@ public class MainActivity extends AppCompatActivity {
                     //user is correct
                     Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
+                    restartTimer();
                 }else{
                     //user is incorrect
                     transferUserToStartScreen();
+                    //reset the timer
+                    mCountDownTimer.cancel(); // cancel
                 }
             }
         });
@@ -83,9 +88,13 @@ public class MainActivity extends AppCompatActivity {
                     //user is correct
                     Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
+                    restartTimer();
+
                 }else{
                     //user is incorrect
                     transferUserToStartScreen();
+                    //reset the timer
+                    mCountDownTimer.cancel(); // cancel
                 }
             }
         });
@@ -94,7 +103,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void restartTimer() {
+        //reset the timer
+        mCountDownTimer.cancel(); // cancel
+        mCountDownTimer.start();  // then restart
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mCountDownTimer.cancel();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        generateMathProblem();
+        restartTimer();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,11 +158,9 @@ public class MainActivity extends AppCompatActivity {
         }else{
             //the equation is false
             int randomSum = digitGenerator.nextInt(100);
-            sum.setText(randomSum+"");
+            sum.setText(randomSum+ "");
         }
-        //reset the timer
-        mCountDownTimer.cancel(); // cancel
-        mCountDownTimer.start();  // then restart
+
     }
     private void transferUserToStartScreen() {
         Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
