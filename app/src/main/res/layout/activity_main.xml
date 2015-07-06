@@ -43,35 +43,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="12"
-            android:textSize="25sp"
+            android:paddingRight="7dp"
+            android:textSize="40sp"
             android:id="@+id/digitOne"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+"
-            android:textSize="25sp"
+            android:paddingRight="7dp"
+            android:textSize="30sp"
             android:id="@+id/mathOperator"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="21"
-            android:textSize="25sp"
+            android:paddingRight="7dp"
+            android:textSize="40sp"
             android:id="@+id/digitTwo"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="="
-            android:textSize="25sp"
+            android:paddingRight="7dp"
+            android:textSize="30sp"
             android:id="@+id/equalsOperator"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="52"
-            android:textSize="25sp"
+            android:textSize="40sp"
             android:id="@+id/sum"/>
     </LinearLayout>
 
