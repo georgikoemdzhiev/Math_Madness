@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private CountDownTimer mCountDownTimer;
     private long timer_length = 10*1000;
     private long timer_interval = 1;
-    long totalMillisUntilFinished = 0;
-    boolean firstTime = true;
     Random ifTrue;
 
     @Override
@@ -59,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
                     //user is correct
                     Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
+                    if(timer_length > 5000){
+                        timer_length -=1000;
+                    }
                     mCountDownTimer.cancel();
                     createNStartTimer();
                 }else{
@@ -77,9 +78,11 @@ public class MainActivity extends AppCompatActivity {
                     //user is correct
                     Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
+                    if(timer_length > 5000){
+                        timer_length -=1000;
+                    }
                     mCountDownTimer.cancel();
                     createNStartTimer();
-
                 }else{
                     //user is incorrect
                     transferUserToStartScreen();
@@ -133,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         int mathOperator = mathOperatorGenerator.nextInt(3);
         //generate math problem
         isMathProblemTrue = ifTrue.nextInt(2);
-        Log.d(TAG, isMathProblemTrue + "");
+        Log.d(TAG,"Math problem true?: "+isMathProblemTrue);
         if(isMathProblemTrue == 1){
             //the equation is true
             Random firstGenerator = new Random();
@@ -203,12 +206,8 @@ public class MainActivity extends AppCompatActivity {
         mCountDownTimer = new CountDownTimer(timer_length,timer_interval) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if(firstTime){
-                    totalMillisUntilFinished = millisUntilFinished;
-                    firstTime = false;
-                }
                 Log.d(TAG, "Mil until finish:" + millisUntilFinished);
-                int progress = (int) ((millisUntilFinished*100)/totalMillisUntilFinished);
+                int progress = (int) (millisUntilFinished/100);
                 mProgressBar.setProgress(progress);
             }
             @Override
