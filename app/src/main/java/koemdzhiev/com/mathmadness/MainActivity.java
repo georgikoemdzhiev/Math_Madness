@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView digitOne;
     private TextView digitTwo;
     private TextView mMathOperator;
-    private TextView equalsOperator;
+    private TextView score;
     private TextView sum;
     private ImageView mTrueBtn;
     private ImageView mFalseBtn;
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private long timer_length = 10*1000;
     private long timer_interval = 1;
     long totalMillisUntilFinished = 0;
+    private int consecutiveGames = 0;
     boolean firstTime = true;
     Random ifTrue;
 
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         digitOne = (TextView)findViewById(R.id.digitOne);
         digitTwo = (TextView)findViewById(R.id.digitTwo);
         mMathOperator = (TextView)findViewById(R.id.mathOperator);
-        equalsOperator = (TextView)findViewById(R.id.equalsOperator);
+        score = (TextView)findViewById(R.id.score);
+        score.setText("Score: "+consecutiveGames);
         sum = (TextView)findViewById(R.id.sum);
         mTrueBtn = (ImageView)findViewById(R.id.trueButton);
         mFalseBtn = (ImageView)findViewById(R.id.falseButton);
@@ -63,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
                 //is the user right? if pressing True button
                 if(isMathProblemTrue == 1){
                     //user is correct
+                    //update consecutive variable
+                    consecutiveGames++;
+                    score.setText("Score: "+consecutiveGames);
                     //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
                     if(timer_length > 5000){
@@ -72,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
                     createNStartTimer();
                 }else{
                     //user is incorrect
+                    consecutiveGames = 0;
+                    score.setText("Score: "+consecutiveGames);
                     transferUserToStartScreen();
                     mCountDownTimer.cancel(); // cancel
                 }
@@ -88,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
                 //is the user right? if pressing True button
                 if(isMathProblemTrue == 0){
                     //user is correct
+                    //update consecutive variable
+                    consecutiveGames++;
+                    score.setText("Score: "+consecutiveGames);
                     //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
                     if(timer_length > 5000){
@@ -97,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
                     createNStartTimer();
                 }else{
                     //user is incorrect
+                    //update consecutive variable
+                    consecutiveGames = 0;
+                    score.setText("Score: "+consecutiveGames);
                     transferUserToStartScreen();
                     mCountDownTimer.cancel();
                 }

@@ -93,4 +93,14 @@
         android:id="@+id/progressBar"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Score: 0"
+        android:id="@+id/score"
+        android:layout_below="@id/progressBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 </RelativeLayout>
