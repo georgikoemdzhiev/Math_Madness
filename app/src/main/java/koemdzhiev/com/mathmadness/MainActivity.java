@@ -21,13 +21,15 @@ public class MainActivity extends AppCompatActivity {
     private int isMathProblemTrue;
     private TextView digitOne;
     private TextView digitTwo;
-    private TextView mathOperator;
+    private TextView mMathOperator;
     private TextView equalsOperator;
     private TextView sum;
     private Button mTrueBtn;
     private Button mFalseBtn;
     private ProgressBar mProgressBar;
     private CountDownTimer mCountDownTimer;
+    private long timer_length = 10*1000;
+    private long timer_interval = 1;
     Random ifTrue;
     Random digitGenerator;
 
@@ -37,30 +39,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         digitOne = (TextView)findViewById(R.id.digitOne);
         digitTwo = (TextView)findViewById(R.id.digitTwo);
-        mathOperator = (TextView)findViewById(R.id.mathOperator);
+        mMathOperator = (TextView)findViewById(R.id.mathOperator);
         equalsOperator = (TextView)findViewById(R.id.equalsOperator);
         sum = (TextView)findViewById(R.id.sum);
         mTrueBtn = (Button)findViewById(R.id.trueButton);
         mFalseBtn = (Button)findViewById(R.id.falseButton);
         mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
 
-        mCountDownTimer = new CountDownTimer(10*1000,500) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-                int progress = (int) (millisUntilFinished/100);
-                mProgressBar.setProgress(progress);
-            }
-
-            @Override
-            public void onFinish() {
-                mProgressBar.setProgress(0);
-                transferUserToStartScreen();
-            }
-        }.start();
+        createNStartTimer();
 
         ifTrue = new Random();
-        digitGenerator = new Random();
 
         mTrueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
                     //user is correct
                     Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
-                    restartTimer();
+                    mCountDownTimer.cancel();
+                    createNStartTimer();
+                    //restartTimer();
                 }else{
                     //user is incorrect
                     transferUserToStartScreen();
@@ -88,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
                     //user is correct
                     Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
-                    restartTimer();
+                    mCountDownTimer.cancel();
+                    createNStartTimer();
 
                 }else{
                     //user is incorrect
@@ -102,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         generateMathProblem();
 
     }
-
 
     @Override
     protected void onPause() {
@@ -140,20 +130,61 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void generateMathProblem() {
+        //generate math operator
+        Random mathOperatorGenerator = new Random();
+        int mathOperator = mathOperatorGenerator.nextInt(3);
         //generate math problem
         isMathProblemTrue = ifTrue.nextInt(2);
         Log.d(TAG, isMathProblemTrue + "");
         if(isMathProblemTrue == 1){
             //the equation is true
-            int firstDigit = digitGenerator.nextInt(100);
+            Random firstGenerator = new Random();
+            int firstDigit = firstGenerator.nextInt(10)+1;
             digitOne.setText(firstDigit+"");
-            int secondDigit = digitGenerator.nextInt(100);
+            //attemp to fix same digits
+            Random secondGenerator = new Random();
+            int secondDigit = secondGenerator.nextInt(10)+1;
             digitTwo.setText(secondDigit+"");
-            sum.setText(firstDigit+secondDigit+"");
+            if(mathOperator == 0){
+                //+
+                mMathOperator.setText("+");
+                sum.setText(firstDigit+secondDigit+"");
+            }else if(mathOperator == 1){
+                //-
+                mMathOperator.setText("-");
+                sum.setText(firstDigit-secondDigit+"");
+            }else if(mathOperator == 2){
+                //*
+                mMathOperator.setText("*");
+                sum.setText(firstDigit*secondDigit+"");
+            }else {
+                // /
+                mMathOperator.setText("/");
+                sum.setText(firstDigit/secondDigit+"");
+            }
+
         }else{
             //the equation is false
-            int randomSum = digitGenerator.nextInt(100);
-            sum.setText(randomSum+ "");
+            if(mathOperator == 0){
+                //+
+                mMathOperator.setText("+");
+                //sum.setText(firstDigit+secondDigit+"");
+            }else if(mathOperator == 1){
+                //-
+                mMathOperator.setText("-");
+                //sum.setText(firstDigit-secondDigit+"");
+            }else if(mathOperator == 2){
+                //*
+                mMathOperator.setText("*");
+                //sum.setText(firstDigit*secondDigit+"");
+            }else {
+                // /
+                mMathOperator.setText("/");
+                //sum.setText(firstDigit/secondDigit+"");
+            }
+            Random sumGenerator = new Random();
+            int randomSum = sumGenerator.nextInt(10)+1;
+            sum.setText(randomSum+"");
         }
 
     }
@@ -167,5 +198,21 @@ public class MainActivity extends AppCompatActivity {
         //reset the timer
         mCountDownTimer.cancel(); // cancel
         mCountDownTimer.start();  // then restart
+    }
+
+    private void createNStartTimer() {
+        mCountDownTimer = new CountDownTimer(timer_length,timer_interval) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int progress = (int) (millisUntilFinished/100);
+                Log.d(TAG, "progress:"+progress);
+                mProgressBar.setProgress(progress);
+            }
+            @Override
+            public void onFinish() {
+                mProgressBar.setProgress(0);
+                transferUserToStartScreen();
+            }
+        }.start();
     }
 }
