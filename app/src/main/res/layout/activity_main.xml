@@ -7,23 +7,30 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="275dp"
+        android:layout_height="140dp"
+        android:gravity="center"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TRUE"
-            android:paddingRight="20dp"
-            android:id="@+id/trueButton"/>
+        <ImageView
+            android:layout_width="121dp"
+            android:layout_height="121dp"
+            android:src="@drawable/tick"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/trueButton"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="121dp"
+            android:layout_height="121dp"
+            android:src="@drawable/cross"
             android:text="FALSE"
-            android:id="@+id/falseButton"/>
+            android:id="@+id/falseButton"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

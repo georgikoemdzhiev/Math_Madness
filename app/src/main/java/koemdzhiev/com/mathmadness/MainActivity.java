@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.Random;
 
@@ -24,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView mMathOperator;
     private TextView equalsOperator;
     private TextView sum;
-    private Button mTrueBtn;
-    private Button mFalseBtn;
+    private ImageView mTrueBtn;
+    private ImageView mFalseBtn;
     private ProgressBar mProgressBar;
     private CountDownTimer mCountDownTimer;
     private long timer_length = 10*1000;
@@ -43,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         mMathOperator = (TextView)findViewById(R.id.mathOperator);
         equalsOperator = (TextView)findViewById(R.id.equalsOperator);
         sum = (TextView)findViewById(R.id.sum);
-        mTrueBtn = (Button)findViewById(R.id.trueButton);
-        mFalseBtn = (Button)findViewById(R.id.falseButton);
+        mTrueBtn = (ImageView)findViewById(R.id.trueButton);
+        mFalseBtn = (ImageView)findViewById(R.id.falseButton);
         mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
 
         createNStartTimer();
@@ -54,10 +56,14 @@ public class MainActivity extends AppCompatActivity {
         mTrueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //play animations
+                YoYo.with(Techniques.Pulse)
+                        .duration(100)
+                        .playOn(findViewById(R.id.trueButton));
                 //is the user right? if pressing True button
                 if(isMathProblemTrue == 1){
                     //user is correct
-                    Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
                     if(timer_length > 5000){
                         timer_length -=1000;
@@ -75,10 +81,14 @@ public class MainActivity extends AppCompatActivity {
         mFalseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //play animations
+                YoYo.with(Techniques.Pulse)
+                        .duration(100)
+                        .playOn(findViewById(R.id.falseButton));
                 //is the user right? if pressing True button
                 if(isMathProblemTrue == 0){
                     //user is correct
-                    Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
                     if(timer_length > 5000){
                         timer_length -=1000;
@@ -192,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void transferUserToStartScreen() {
-        Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(MainActivity.this,StartActivity.class);
         startActivity(intent);
     }
