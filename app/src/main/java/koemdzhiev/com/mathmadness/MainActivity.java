@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private CountDownTimer mCountDownTimer;
     private long timer_length = 10*1000;
     private long timer_interval = 1;
+    long totalMillisUntilFinished = 0;
+    boolean firstTime = true;
     Random ifTrue;
 
     @Override
@@ -207,7 +209,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 Log.d(TAG, "Mil until finish:" + millisUntilFinished);
-                int progress = (int) (millisUntilFinished/100);
+                if(firstTime){totalMillisUntilFinished = millisUntilFinished; firstTime = false;}
+                int progress = (int) ((millisUntilFinished*100)/totalMillisUntilFinished);
+                Log.d(TAG, "progressBar:" + progress);
                 mProgressBar.setProgress(progress);
             }
             @Override
