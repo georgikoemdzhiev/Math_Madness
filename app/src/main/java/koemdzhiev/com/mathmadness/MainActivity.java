@@ -30,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private CountDownTimer mCountDownTimer;
     private long timer_length = 10*1000;
     private long timer_interval = 1;
+    long totalMillisUntilFinished = 0;
+    boolean firstTime = true;
     Random ifTrue;
-    Random digitGenerator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +61,9 @@ public class MainActivity extends AppCompatActivity {
                     generateMathProblem();
                     mCountDownTimer.cancel();
                     createNStartTimer();
-                    //restartTimer();
                 }else{
                     //user is incorrect
                     transferUserToStartScreen();
-                    //reset the timer
                     mCountDownTimer.cancel(); // cancel
                 }
             }
@@ -84,8 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     //user is incorrect
                     transferUserToStartScreen();
-                    //reset the timer
-                    mCountDownTimer.cancel(); // cancel
+                    mCountDownTimer.cancel();
                 }
             }
         });
@@ -201,11 +199,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createNStartTimer() {
+        Log.d(TAG,"timer length:"+timer_length);
         mCountDownTimer = new CountDownTimer(timer_length,timer_interval) {
             @Override
             public void onTick(long millisUntilFinished) {
-                int progress = (int) (millisUntilFinished/100);
-                Log.d(TAG, "progress:"+progress);
+                if(firstTime){
+                    totalMillisUntilFinished = millisUntilFinished;
+                    firstTime = false;
+                }
+                Log.d(TAG, "Mil until finish:" + millisUntilFinished);
+                int progress = (int) ((millisUntilFinished*100)/totalMillisUntilFinished);
                 mProgressBar.setProgress(progress);
             }
             @Override
