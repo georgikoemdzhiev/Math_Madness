@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 public class StartActivity extends AppCompatActivity {
     private TextView mPlay;
+    private TextView mResult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +25,9 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        Intent intent = getIntent();
+        mResult = (TextView)findViewById(R.id.result);
+        mResult.setText(intent.getStringExtra("score"));
     }
 
     @Override

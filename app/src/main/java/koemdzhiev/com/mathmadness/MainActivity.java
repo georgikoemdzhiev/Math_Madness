@@ -32,10 +32,11 @@ public class MainActivity extends AppCompatActivity {
     private CountDownTimer mCountDownTimer;
     private long timer_length = 10*1000;
     private long timer_interval = 1;
-    long totalMillisUntilFinished = 0;
     private int consecutiveGames = 0;
-    boolean firstTime = true;
     Random ifTrue;
+    private int firstNumber = 0;
+    private int secondNumber = 0;
+    private int sum2 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
                     score.setText("Score: "+consecutiveGames);
                     //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
-                    if(timer_length > 5000){
-                        timer_length -=1000;
-                    }
+//                    if(timer_length > 5000){
+//                        timer_length -=1000;
+//                    }
                     mCountDownTimer.cancel();
                     createNStartTimer();
                 }else{
@@ -100,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
                     score.setText("Score: "+consecutiveGames);
                     //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
-                    if(timer_length > 5000){
-                        timer_length -=1000;
-                    }
+//                    if(timer_length > 5000){
+//                        timer_length -=1000;
+//                    }
                     mCountDownTimer.cancel();
                     createNStartTimer();
                 }else{
@@ -158,65 +159,80 @@ public class MainActivity extends AppCompatActivity {
     private void generateMathProblem() {
         //generate math operator
         Random mathOperatorGenerator = new Random();
+        //does not include division
         int mathOperator = mathOperatorGenerator.nextInt(3);
         //generate math problem
         isMathProblemTrue = ifTrue.nextInt(2);
-        Log.d(TAG,"Math problem true?: "+isMathProblemTrue);
+        Log.d(TAG, "Math problem true?: " + isMathProblemTrue);
         if(isMathProblemTrue == 1){
-            //the equation is true
-            Random firstGenerator = new Random();
-            int firstDigit = firstGenerator.nextInt(10)+1;
-            digitOne.setText(firstDigit+"");
-            //attemp to fix same digits
-            Random secondGenerator = new Random();
-            int secondDigit = secondGenerator.nextInt(10)+1;
-            digitTwo.setText(secondDigit+"");
-            if(mathOperator == 0){
-                //+
-                mMathOperator.setText("+");
-                sum.setText(firstDigit+secondDigit+"");
-            }else if(mathOperator == 1){
-                //-
-                mMathOperator.setText("-");
-                sum.setText(firstDigit-secondDigit+"");
-            }else if(mathOperator == 2){
-                //*
-                mMathOperator.setText("*");
-                sum.setText(firstDigit*secondDigit+"");
-            }else {
-                // /
-                mMathOperator.setText("/");
-                sum.setText(firstDigit/secondDigit+"");
+            //generate true equation
+            int generateRandomMathOperator = new Random().nextInt(3);
+            Log.d(TAG,"randomMathNumber"+ generateRandomMathOperator);
+            switch (generateRandomMathOperator){
+                case 0:mMathOperator.setText("+");break;
+                case 1:mMathOperator.setText("-");break;
+                case 2:mMathOperator.setText("*");break;
             }
+            int total = 0;
+            boolean equasionIsTrue = false;
+            while(!equasionIsTrue){
+                firstNumber = new Random().nextInt(10)+1;
+                 secondNumber = new Random().nextInt(10)+1;
+                 sum2 = new Random().nextInt(10)+1;
 
-        }else{
-            //the equation is false
-            if(mathOperator == 0){
-                //+
-                mMathOperator.setText("+");
-                //sum.setText(firstDigit+secondDigit+"");
-            }else if(mathOperator == 1){
-                //-
-                mMathOperator.setText("-");
-                //sum.setText(firstDigit-secondDigit+"");
-            }else if(mathOperator == 2){
-                //*
-                mMathOperator.setText("*");
-                //sum.setText(firstDigit*secondDigit+"");
-            }else {
-                // /
-                mMathOperator.setText("/");
-                //sum.setText(firstDigit/secondDigit+"");
+                switch (generateRandomMathOperator){
+                    case 0:total = firstNumber + secondNumber;break;
+                    case 1:total = firstNumber - secondNumber;break;
+                    case 2:total = firstNumber * secondNumber;break;
+                }
+                boolean isItTrue = total == sum2;
+                if(isItTrue == true){
+                    equasionIsTrue = true;
+                }
             }
-            Random sumGenerator = new Random();
-            int randomSum = sumGenerator.nextInt(10)+1;
-            sum.setText(randomSum+"");
+            digitOne.setText(firstNumber+"");
+            digitTwo.setText(secondNumber+"");
+            sum.setText(sum2+"");
+        }
+
+        else{
+            // generate false equation
+            int generateRandomMathOperator = new Random().nextInt(3);
+            Log.d(TAG,"randomMathNumber"+ generateRandomMathOperator);
+            switch (generateRandomMathOperator){
+                case 0:mMathOperator.setText("+");break;
+                case 1:mMathOperator.setText("-");break;
+                case 2:mMathOperator.setText("*");break;
+            }
+            int total = 0;
+            boolean equasionIsTrue = true;
+            while(equasionIsTrue){
+                firstNumber = new Random().nextInt(10)+1;
+                secondNumber = new Random().nextInt(10)+1;
+                sum2 = new Random().nextInt(10)+1;
+
+                switch (generateRandomMathOperator){
+                    case 0:total = firstNumber + secondNumber;break;
+                    case 1:total = firstNumber - secondNumber;break;
+                    case 2:total = firstNumber * secondNumber;break;
+                }
+                boolean isItTrue = total == sum2;
+                if(isItTrue == false){
+                    equasionIsTrue = false;
+                }
+            }
+            digitOne.setText(firstNumber+"");
+            digitTwo.setText(secondNumber+"");
+            sum.setText(sum2+"");
         }
 
     }
     private void transferUserToStartScreen() {
         //Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
+       String toBeSend = digitOne.getText().toString() + mMathOperator.getText().toString()+
+        digitTwo.getText().toString()+ "="+sum.getText().toString();
         Intent intent = new Intent(MainActivity.this,StartActivity.class);
+        intent.putExtra("score", toBeSend);
         startActivity(intent);
     }
 
@@ -231,10 +247,10 @@ public class MainActivity extends AppCompatActivity {
         mCountDownTimer = new CountDownTimer(timer_length,timer_interval) {
             @Override
             public void onTick(long millisUntilFinished) {
-                Log.d(TAG, "Mil until finish:" + millisUntilFinished);
-                if(firstTime){totalMillisUntilFinished = millisUntilFinished; firstTime = false;}
-                int progress = (int) ((millisUntilFinished*100)/totalMillisUntilFinished);
-                Log.d(TAG, "progressBar:" + progress);
+                //Log.d(TAG, "Mil until finish:" + millisUntilFinished);
+                //if(firstTime){totalMillisUntilFinished = millisUntilFinished; firstTime = false;}
+                int progress = (int) (millisUntilFinished/100);
+                //Log.d(TAG, "progressBar:" + progress);
                 mProgressBar.setProgress(progress);
             }
             @Override
