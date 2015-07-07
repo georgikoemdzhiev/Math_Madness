@@ -17,6 +17,8 @@ import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.Random;
 
+import koemdzhiev.com.mathmadness.utils.Constants;
+
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -74,29 +76,12 @@ public class MainActivity extends AppCompatActivity {
                     score.setText("Score: "+consecutiveGames);
                     //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
-                    if(timer_length > 5000){
-                        timer_length-= 1000;
-                    }
-                    if(consecutiveGames == 30){
-                        timer_length -=1000;
-                    }
-                    if(consecutiveGames == 50){
-                        timer_length -=1000;
-                    }
-                    if(consecutiveGames == 60){
-                        timer_length -=1000;
-                    }
-                    if(consecutiveGames == 80){
-                        timer_length -=1000;
-                    }
-                    if(consecutiveGames == 100){
-                        timer_length -=2000;
-                    }
+                    speedUpTimer();
                     mCountDownTimer.cancel();
                     createNStartTimer();
                 }else{
                     //user is incorrect
-                    consecutiveGames = 0;
+                    //consecutiveGames = 0;
                     score.setText("Score: "+consecutiveGames);
                     transferUserToStartScreen();
                     mCountDownTimer.cancel(); // cancel
@@ -119,15 +104,13 @@ public class MainActivity extends AppCompatActivity {
                     score.setText("Score: "+consecutiveGames);
                     //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
-                    if(timer_length > 5000){
-                        timer_length-= 1000;
-                    }
+                    speedUpTimer();
                     mCountDownTimer.cancel();
                     createNStartTimer();
                 }else{
                     //user is incorrect
                     //update consecutive variable
-                    consecutiveGames = 0;
+                    //consecutiveGames = 0;
                     score.setText("Score: "+consecutiveGames);
                     transferUserToStartScreen();
                     mCountDownTimer.cancel();
@@ -137,6 +120,24 @@ public class MainActivity extends AppCompatActivity {
 
         generateMathProblem();
 
+    }
+
+    private void speedUpTimer() {
+        if(timer_length > 5000){
+            timer_length-= 1000;
+        }
+        if(consecutiveGames == 20){
+            timer_length -=1000;
+        }
+        if(consecutiveGames == 35){
+            timer_length -=1000;
+        }
+        if(consecutiveGames == 70){
+            timer_length -=500;
+        }
+        if(consecutiveGames == 90){
+            timer_length -=1000;
+        }
     }
 
     @Override
@@ -249,8 +250,9 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
        String toBeSend = digitOne.getText().toString() + mMathOperator.getText().toString()+
         digitTwo.getText().toString()+ "="+ mSum.getText().toString();
-        Intent intent = new Intent(MainActivity.this,StartActivity.class);
-        intent.putExtra("score", toBeSend);
+        Intent intent = new Intent(MainActivity.this, GameOverActivity.class);
+        intent.putExtra(Constants.KEY_MATH_EQ, toBeSend);
+        intent.putExtra(Constants.KEY_SCORE,consecutiveGames);
         startActivity(intent);
     }
 

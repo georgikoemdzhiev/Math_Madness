@@ -6,30 +6,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import koemdzhiev.com.mathmadness.utils.Constants;
 
-public class StartActivity extends AppCompatActivity {
-    private TextView mPlay;
+
+public class GameOverActivity extends AppCompatActivity {
+    private TextView mMathEquasion;
+    private Button mPlayAgain;
+    private TextView mScore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
-
-        mPlay = (TextView)findViewById(R.id.startGameView);
-        mPlay.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.activity_game_over);
+        mMathEquasion = (TextView)findViewById(R.id.mathEquasion);
+        Intent intent = getIntent();
+        mMathEquasion.setText(intent.getStringExtra(Constants.KEY_MATH_EQ));
+        mPlayAgain = (Button)findViewById(R.id.playAgainBtn);
+        mPlayAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StartActivity.this,MainActivity.class);
+                Intent intent = new Intent(GameOverActivity.this,MainActivity.class);
                 startActivity(intent);
             }
         });
+        mScore = (TextView)findViewById(R.id.score);
+        mScore.setText("Score: "+intent.getIntExtra(Constants.KEY_SCORE,0));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_start, menu);
+        getMenuInflater().inflate(R.menu.menu_game_over, menu);
         return true;
     }
 
