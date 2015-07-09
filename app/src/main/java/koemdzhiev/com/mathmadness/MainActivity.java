@@ -126,17 +126,23 @@ public class MainActivity extends AppCompatActivity {
         if(timer_length > 5000){
             timer_length-= 1000;
         }
+        if(consecutiveGames == 10){
+            timer_length -=1000;
+        }
         if(consecutiveGames == 20){
             timer_length -=1000;
         }
-        if(consecutiveGames == 35){
+        if(consecutiveGames == 30){
             timer_length -=1000;
         }
-        if(consecutiveGames == 70){
-            timer_length -=500;
+        if(consecutiveGames == 40){
+            timer_length -=700;
         }
-        if(consecutiveGames == 90){
-            timer_length -=1000;
+        if(consecutiveGames == 50){
+            timer_length -=700;
+        }
+        if(consecutiveGames == 65){
+            timer_length -=400;
         }
     }
 
