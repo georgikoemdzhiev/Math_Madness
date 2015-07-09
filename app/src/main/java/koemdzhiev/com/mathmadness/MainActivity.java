@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     //user is incorrect
                     //consecutiveGames = 0;
                     score.setText("Score: "+consecutiveGames);
-                    transferUserToStartScreen();
+                    transferUserToStartScreen("");
                     mCountDownTimer.cancel(); // cancel
                 }
             }
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     //update consecutive variable
                     //consecutiveGames = 0;
                     score.setText("Score: "+consecutiveGames);
-                    transferUserToStartScreen();
+                    transferUserToStartScreen("");
                     mCountDownTimer.cancel();
                 }
             }
@@ -136,13 +136,13 @@ public class MainActivity extends AppCompatActivity {
             timer_length -=1000;
         }
         if(consecutiveGames == 40){
-            timer_length -=700;
+            timer_length -=500;
         }
         if(consecutiveGames == 50){
-            timer_length -=700;
+            timer_length -=500;
         }
         if(consecutiveGames == 65){
-            timer_length -=400;
+            timer_length -=700;
         }
     }
 
@@ -252,10 +252,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    private void transferUserToStartScreen() {
-        //Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
-       String toBeSend = digitOne.getText().toString() + mMathOperator.getText().toString()+
-        digitTwo.getText().toString()+ "="+ mSum.getText().toString();
+    private void transferUserToStartScreen(String str) {
+        String toBeSend = "";
+        if(!str.equals("Time's up!")) {
+            //Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
+            toBeSend = digitOne.getText().toString() + mMathOperator.getText().toString() +
+                    digitTwo.getText().toString() + "=" + mSum.getText().toString();
+        }else{
+            toBeSend = str;
+        }
         Intent intent = new Intent(MainActivity.this, GameOverActivity.class);
         intent.putExtra(Constants.KEY_MATH_EQ, toBeSend);
         intent.putExtra(Constants.KEY_SCORE,consecutiveGames);
@@ -281,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 mProgressBar.setProgress(0);
-                transferUserToStartScreen();
+                transferUserToStartScreen("Time's up!");
             }
         }.start();
     }

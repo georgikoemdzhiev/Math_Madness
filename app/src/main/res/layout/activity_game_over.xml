@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
+                xmlns:foobar="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -8,7 +9,29 @@
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context="koemdzhiev.com.mathmadness.GameOverActivity">
 
-    <TextView
+    <com.ctrlplusz.anytextview.AnyTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Score: 23"
+        android:id="@+id/score"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        foobar:typeface="JungleFeverNF.otf"/>
+
+
+    <com.ctrlplusz.anytextview.AnyTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="You are wrong!"
+        android:id="@+id/userIsWrontTextView"
+        android:layout_below="@+id/score"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
+        foobar:typeface="JungleFeverNF.otf"/>
+
+    <com.ctrlplusz.anytextview.AnyTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -16,7 +39,8 @@
         android:id="@+id/mathEquasion"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="89dp"/>
+        android:layout_marginTop="89dp"
+        foobar:typeface="JungleFeverNF.otf"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -24,15 +48,6 @@
         android:text="Play Again"
         android:id="@+id/playAgainBtn"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Score: 23"
-        android:id="@+id/score"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
