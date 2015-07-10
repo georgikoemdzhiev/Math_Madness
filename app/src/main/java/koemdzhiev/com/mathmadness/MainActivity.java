@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mFalseBtn;
     private ProgressBar mProgressBar;
     private CountDownTimer mCountDownTimer;
-    private long timer_length = 10*1000;
+    private long timer_length = 5*1000;
     private long timer_interval = 1;
     private int consecutiveGames = 0;
     private Random ifTrue;
@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
         mFalseBtn = (ImageView)findViewById(R.id.falseButton);
         mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
 
-        createNStartTimer();
+        createTimer();
+        mCountDownTimer.start();
 
         ifTrue = new Random();
 
@@ -73,12 +74,13 @@ public class MainActivity extends AppCompatActivity {
                     //user is correct
                     //update consecutive variable
                     consecutiveGames++;
-                    score.setText("Score: "+consecutiveGames);
+                    score.setText("Score: " + consecutiveGames);
                     //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
-                    speedUpTimer();
                     mCountDownTimer.cancel();
-                    createNStartTimer();
+                    createTimer();
+                    speedUpTimer();
+                    mCountDownTimer.start();
                 }else{
                     //user is incorrect
                     //consecutiveGames = 0;
@@ -101,12 +103,13 @@ public class MainActivity extends AppCompatActivity {
                     //user is correct
                     //update consecutive variable
                     consecutiveGames++;
-                    score.setText("Score: "+consecutiveGames);
+                    score.setText("Score: " + consecutiveGames);
                     //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
-                    speedUpTimer();
                     mCountDownTimer.cancel();
-                    createNStartTimer();
+                    createTimer();
+                    speedUpTimer();
+                    mCountDownTimer.start();
                 }else{
                     //user is incorrect
                     //update consecutive variable
@@ -123,27 +126,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void speedUpTimer() {
-        if(timer_length > 5000){
-            timer_length-= 1000;
+        if(timer_length > 3000){
+            timer_length -= 500;
         }
         if(consecutiveGames == 10){
-            timer_length -=1000;
+            timer_length -= 500;
         }
-        if(consecutiveGames == 20){
-            timer_length -=1000;
+        if(consecutiveGames == 15){
+            timer_length -= 500;
         }
-        if(consecutiveGames == 30){
-            timer_length -=1000;
-        }
-        if(consecutiveGames == 40){
-            timer_length -=500;
-        }
-        if(consecutiveGames == 50){
-            timer_length -=500;
-        }
-        if(consecutiveGames == 65){
-            timer_length -=700;
-        }
+//        if(consecutiveGames == 20){
+//            timer_length -= 500;
+//        }
     }
 
     @Override
@@ -273,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
         mCountDownTimer.start();  // then restart
     }
 
-    private void createNStartTimer() {
+    private void createTimer() {
         Log.d(TAG,"timer length:"+timer_length);
         mCountDownTimer = new CountDownTimer(timer_length,timer_interval) {
             @Override
@@ -288,6 +282,6 @@ public class MainActivity extends AppCompatActivity {
                 mProgressBar.setProgress(0);
                 transferUserToStartScreen("Time's up!");
             }
-        }.start();
+        };
     }
 }

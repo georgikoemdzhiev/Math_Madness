@@ -6,15 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import koemdzhiev.com.mathmadness.utils.Constants;
 
 
 public class GameOverActivity extends AppCompatActivity {
     private TextView mMathEquasion;
-    private Button mPlayAgain;
+    private ImageView mPlayAgain;
+    private ImageView mGoHome;
     private TextView mScore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,16 +27,32 @@ public class GameOverActivity extends AppCompatActivity {
         mMathEquasion = (TextView)findViewById(R.id.mathEquasion);
         Intent intent = getIntent();
         mMathEquasion.setText(intent.getStringExtra(Constants.KEY_MATH_EQ));
-        mPlayAgain = (Button)findViewById(R.id.playAgainBtn);
+        mPlayAgain = (ImageView)findViewById(R.id.playAgainBtn);
         mPlayAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //play animations
+                YoYo.with(Techniques.Pulse)
+                        .duration(100)
+                        .playOn(findViewById(R.id.playAgainBtn));
                 Intent intent = new Intent(GameOverActivity.this,MainActivity.class);
                 startActivity(intent);
             }
         });
         mScore = (TextView)findViewById(R.id.score);
         mScore.setText("Score: "+intent.getIntExtra(Constants.KEY_SCORE,0));
+        mGoHome = (ImageView)findViewById(R.id.goToHome);
+        mGoHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //play animations
+                YoYo.with(Techniques.Pulse)
+                        .duration(100)
+                        .playOn(findViewById(R.id.goToHome));
+                Intent intent = new Intent(GameOverActivity.this,StartActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

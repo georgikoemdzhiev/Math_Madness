@@ -6,20 +6,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageView;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 
 public class StartActivity extends AppCompatActivity {
-    private TextView mPlay;
+    private ImageView mPlay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        mPlay = (TextView)findViewById(R.id.startGameView);
+        mPlay = (ImageView)findViewById(R.id.startGameView);
         mPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //play animations
+                YoYo.with(Techniques.Pulse)
+                        .duration(200)
+                        .playOn(findViewById(R.id.startGameView));
                 Intent intent = new Intent(StartActivity.this,MainActivity.class);
                 startActivity(intent);
             }

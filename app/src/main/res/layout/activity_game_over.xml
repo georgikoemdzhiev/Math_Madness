@@ -42,12 +42,29 @@
         android:layout_marginTop="89dp"
         foobar:typeface="JungleFeverNF.otf"/>
 
-    <Button
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play Again"
-        android:id="@+id/playAgainBtn"
+        android:layout_height="200dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/goToHome"
+            android:src="@drawable/home_icon"
+            android:layout_marginBottom="15dp"
+            />
+        <ImageView
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:id="@+id/playAgainBtn"
+            android:src="@drawable/play"
+           />
+    </LinearLayout>
+
 
 </RelativeLayout>
