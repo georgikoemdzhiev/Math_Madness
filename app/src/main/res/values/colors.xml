@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="disabled">#B8BFAE</color>
-    <color name="active">#9AC45F</color>
+    <color name="active">#ffa7cc70</color>
+    <color name="active_red">@android:color/holo_red_dark</color>
 </resources>

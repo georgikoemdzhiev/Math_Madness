@@ -3,6 +3,7 @@
                 xmlns:foobar="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/backrepeat"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context=".MainActivity">
 
@@ -32,11 +33,6 @@
             android:id="@+id/falseButton"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -52,7 +48,8 @@
             android:layout_height="wrap_content"
             android:text="12"
             android:paddingRight="7dp"
-            android:textSize="50sp"
+            android:textColor="@android:color/white"
+            android:textSize="70sp"
             android:id="@+id/digitOne"
             foobar:typeface="JungleFeverNF.otf"/>
 
@@ -61,8 +58,9 @@
             android:layout_height="wrap_content"
             android:text="+"
             android:paddingRight="7dp"
+            android:textColor="@android:color/white"
             android:paddingLeft="7dp"
-            android:textSize="38sp"
+            android:textSize="60sp"
             android:id="@+id/mathOperator"
             foobar:typeface="JungleFeverNF.otf"/>
 
@@ -71,8 +69,9 @@
             android:layout_height="wrap_content"
             android:text="21"
             android:paddingRight="7dp"
+            android:textColor="@android:color/white"
             android:paddingLeft="7dp"
-            android:textSize="50sp"
+            android:textSize="70sp"
             android:id="@+id/digitTwo"
             foobar:typeface="JungleFeverNF.otf"/>
 
@@ -81,8 +80,9 @@
             android:layout_height="wrap_content"
             android:text="="
             android:paddingRight="7dp"
+            android:textColor="@android:color/white"
             android:paddingEnd="7dp"
-            android:textSize="38sp"
+            android:textSize="60sp"
             android:id="@+id/equalsOperator"
             foobar:typeface="JungleFeverNF.otf"/>
 
@@ -91,7 +91,8 @@
             android:layout_height="wrap_content"
             android:text="52"
             android:paddingLeft="7dp"
-            android:textSize="50sp"
+            android:textColor="@android:color/white"
+            android:textSize="70sp"
             android:id="@+id/sum"
             foobar:typeface="JungleFeverNF.otf"/>
     </LinearLayout>
@@ -104,13 +105,14 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:minHeight="10dp"
-        android:progressDrawable="@drawable/progress_bar_color_change"/>
+        android:progressDrawable="@drawable/progress_bar_green"/>
 
     <com.ctrlplusz.anytextview.AnyTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Score: 0"
+        android:textColor="@android:color/white"
         android:id="@+id/score"
         android:paddingLeft="7dp"
         android:layout_below="@id/progressBar"

@@ -1,6 +1,8 @@
 package koemdzhiev.com.mathmadness;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -275,6 +277,14 @@ public class MainActivity extends AppCompatActivity {
                 if(firstTime){totalMillisUntilFinished = millisUntilFinished; firstTime = false;}
                 int progress = (int) (millisUntilFinished*100/totalMillisUntilFinished);
                 //Log.d(TAG, "progressBar:" + progress);
+                Resources res = getResources();
+                Rect bounds = mProgressBar.getProgressDrawable().getBounds();
+                if(progress < 20){
+                    mProgressBar.setProgressDrawable(res.getDrawable(R.drawable.progress_bar_red));
+                }else{
+                    mProgressBar.setProgressDrawable(res.getDrawable(R.drawable.progress_bar_green));
+                }
+                mProgressBar.getProgressDrawable().setBounds(bounds);
                 mProgressBar.setProgress(progress);
             }
             @Override

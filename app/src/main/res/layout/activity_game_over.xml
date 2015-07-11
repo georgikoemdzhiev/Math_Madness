@@ -3,9 +3,7 @@
                 xmlns:foobar="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/backrepeat"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context="koemdzhiev.com.mathmadness.GameOverActivity">
 
@@ -14,6 +12,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Score: 23"
+        android:textColor="@android:color/white"
         android:id="@+id/score"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -25,6 +24,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="You are wrong!"
+        android:textColor="@android:color/white"
         android:id="@+id/userIsWrontTextView"
         android:layout_below="@+id/score"
         android:layout_centerHorizontal="true"
@@ -38,6 +38,7 @@
         android:text="result"
         android:id="@+id/mathEquasion"
         android:layout_alignParentTop="true"
+        android:textColor="@android:color/white"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="89dp"
         foobar:typeface="JungleFeverNF.otf"/>
