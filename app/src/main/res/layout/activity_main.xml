@@ -102,7 +102,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:minHeight="10dp"
+        android:progressDrawable="@drawable/progress_bar_color_change"/>
 
     <com.ctrlplusz.anytextview.AnyTextView
         android:layout_width="wrap_content"
