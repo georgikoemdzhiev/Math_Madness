@@ -7,6 +7,23 @@
                 tools:context="koemdzhiev.com.mathmadness.StartActivity">
 
 
+    <!-- sign-in button -->
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/startGameView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="43dp"/>
+
+    <!-- sign-out button -->
+    <Button
+        android:id="@+id/sign_out_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Out"
+        android:visibility="gone" />
+
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -14,4 +31,31 @@
         android:src="@drawable/play"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:layout_marginTop="100dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <!-- show achievements -->
+        <Button
+            android:id="@+id/show_achievements"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Achievements"
+            android:layout_alignBaseline="@+id/show_leaderboard"
+            android:layout_alignBottom="@+id/show_leaderboard"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+
+        <!-- show leaderboards -->
+        <Button
+            android:id="@+id/show_leaderboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Leaderboard"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+    </LinearLayout>
 </RelativeLayout>

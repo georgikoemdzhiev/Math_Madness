@@ -16,13 +16,17 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Games;
 
 import java.util.Random;
 
 import koemdzhiev.com.mathmadness.utils.Constants;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener{
     private static final String TAG = MainActivity.class.getSimpleName();
     private int isMathProblemTrue;
     private TextView digitOne;
@@ -43,12 +47,20 @@ public class MainActivity extends AppCompatActivity {
     private int sum = 0;
     private long totalMillisUntilFinished = 0;
     private boolean firstTime = true;
-
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Create the Google Api Client with access to the Play Games services
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
+                        // add other APIs and scopes here as needed
+                .build();
+
         digitOne = (TextView)findViewById(R.id.digitOne);
         digitTwo = (TextView)findViewById(R.id.digitTwo);
         mMathOperator = (TextView)findViewById(R.id.mathOperator);
@@ -74,6 +86,13 @@ public class MainActivity extends AppCompatActivity {
                 //is the user right? if pressing True button
                 if(isMathProblemTrue == 1){
                     //user is correct
+                    if(mGoogleApiClient.isConnected()){
+                        Games.Achievements.unlock(mGoogleApiClient,
+                                getString(R.string.score_50_achievement));
+                        Games.Leaderboards.submitScore(mGoogleApiClient,
+                                getString(R.string.number_of_solved_math_problems_leaderboard),
+                                consecutiveGames);
+                    }
                     //update consecutive variable
                     consecutiveGames++;
                     score.setText("Score: " + consecutiveGames);
@@ -103,6 +122,13 @@ public class MainActivity extends AppCompatActivity {
                 //is the user right? if pressing True button
                 if(isMathProblemTrue == 0){
                     //user is correct
+                    if(mGoogleApiClient.isConnected()){
+                        Games.Achievements.unlock(mGoogleApiClient,
+                                getString(R.string.score_50_achievement));
+                        Games.Leaderboards.submitScore(mGoogleApiClient,
+                                getString(R.string.number_of_solved_math_problems_leaderboard),
+                                consecutiveGames);
+                    }
                     //update consecutive variable
                     consecutiveGames++;
                     score.setText("Score: " + consecutiveGames);
@@ -248,6 +274,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGoogleApiClient.disconnect();
+    }
+
     private void transferUserToStartScreen(String str) {
         String toBeSend = "";
         if(!str.equals("Time's up!")) {
@@ -293,5 +331,20 @@ public class MainActivity extends AppCompatActivity {
                 transferUserToStartScreen("Time's up!");
             }
         };
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }

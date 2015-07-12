@@ -2,7 +2,6 @@ package koemdzhiev.com.mathmadness;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,10 +9,14 @@ import android.widget.ImageView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.games.Games;
+import com.google.example.games.basegameutils.BaseGameActivity;
 
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends BaseGameActivity implements View.OnClickListener {
     private ImageView mPlay;
+//    private Button mSignInButton;
+//    private Button mSignOutButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +30,12 @@ public class StartActivity extends AppCompatActivity {
                 YoYo.with(Techniques.Pulse)
                         .duration(200)
                         .playOn(findViewById(R.id.startGameView));
-                Intent intent = new Intent(StartActivity.this,MainActivity.class);
+                Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
+        findViewById(R.id.sign_out_button).setOnClickListener(this);
     }
 
     @Override
@@ -53,5 +58,34 @@ public class StartActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSignInFailed() {
+        findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+        findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onSignInSucceeded() {
+        findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+        findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.sign_in_button) {
+            beginUserInitiatedSignIn();
+        }
+        else if (view.getId() == R.id.sign_out_button) {
+            signOut();
+            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+        }else if (view.getId() == R.id.show_achievements){
+            startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
+        }else if(view.getId() == R.id.show_leaderboard){
+            startActivityForResult(Games.Leaderboards.getLeaderboardIntent(
+                            getApiClient(), getString(R.string.number_of_solved_math_problems_leaderboard)),2);
+        }
     }
 }
