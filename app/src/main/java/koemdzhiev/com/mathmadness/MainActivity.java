@@ -86,16 +86,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 //is the user right? if pressing True button
                 if(isMathProblemTrue == 1){
                     //user is correct
+                    //update consecutive variable
+                    consecutiveGames++;
+                    score.setText("Score: " + consecutiveGames);
                     if(mGoogleApiClient.isConnected()){
-                        Games.Achievements.unlock(mGoogleApiClient,
-                                getString(R.string.score_50_achievement));
+                        if(consecutiveGames == 10){
+                            Games.Achievements.unlock(mGoogleApiClient,
+                                    getString(R.string.score_50_achievement));
+                        }
                         Games.Leaderboards.submitScore(mGoogleApiClient,
                                 getString(R.string.number_of_solved_math_problems_leaderboard),
                                 consecutiveGames);
                     }
-                    //update consecutive variable
-                    consecutiveGames++;
-                    score.setText("Score: " + consecutiveGames);
                     //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
                     mCountDownTimer.cancel();
@@ -122,16 +124,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 //is the user right? if pressing True button
                 if(isMathProblemTrue == 0){
                     //user is correct
+                    //update consecutive variable
+                    consecutiveGames++;
+                    score.setText("Score: " + consecutiveGames);
                     if(mGoogleApiClient.isConnected()){
-                        Games.Achievements.unlock(mGoogleApiClient,
-                                getString(R.string.score_50_achievement));
+                        if(consecutiveGames == 10){
+                            Games.Achievements.unlock(mGoogleApiClient,
+                                    getString(R.string.score_50_achievement));
+                        }
                         Games.Leaderboards.submitScore(mGoogleApiClient,
                                 getString(R.string.number_of_solved_math_problems_leaderboard),
                                 consecutiveGames);
                     }
-                    //update consecutive variable
-                    consecutiveGames++;
-                    score.setText("Score: " + consecutiveGames);
                     //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                     generateMathProblem();
                     mCountDownTimer.cancel();

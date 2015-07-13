@@ -42,20 +42,13 @@
             android:id="@+id/show_achievements"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Achievements"
-            android:layout_alignBaseline="@+id/show_leaderboard"
-            android:layout_alignBottom="@+id/show_leaderboard"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:text="Achievements"/>
 
         <!-- show leaderboards -->
         <Button
             android:id="@+id/show_leaderboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Leaderboard"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:text="Leaderboard"/>
     </LinearLayout>
 </RelativeLayout>

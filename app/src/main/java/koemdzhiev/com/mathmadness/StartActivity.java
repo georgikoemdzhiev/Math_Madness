@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -15,8 +16,6 @@ import com.google.example.games.basegameutils.BaseGameActivity;
 
 public class StartActivity extends BaseGameActivity implements View.OnClickListener {
     private ImageView mPlay;
-//    private Button mSignInButton;
-//    private Button mSignOutButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +35,8 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
         });
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
+        findViewById(R.id.show_achievements).setOnClickListener(this);
+        findViewById(R.id.show_leaderboard).setOnClickListener(this);
     }
 
     @Override
@@ -76,16 +77,18 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
     public void onClick(View view) {
         if (view.getId() == R.id.sign_in_button) {
             beginUserInitiatedSignIn();
-        }
-        else if (view.getId() == R.id.sign_out_button) {
+        }else if (view.getId() == R.id.sign_out_button) {
             signOut();
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }else if (view.getId() == R.id.show_achievements){
+            Toast.makeText(StartActivity.this,"achivements",Toast.LENGTH_SHORT).show();
             startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
         }else if(view.getId() == R.id.show_leaderboard){
+            Toast.makeText(StartActivity.this,"leaderboard",Toast.LENGTH_SHORT).show();
             startActivityForResult(Games.Leaderboards.getLeaderboardIntent(
-                            getApiClient(), getString(R.string.number_of_solved_math_problems_leaderboard)),2);
+                    getApiClient(), getString(R.string.number_of_solved_math_problems_leaderboard)), 2);
         }
     }
+
 }
