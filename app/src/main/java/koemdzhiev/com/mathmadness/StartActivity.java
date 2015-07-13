@@ -1,25 +1,45 @@
 package koemdzhiev.com.mathmadness;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.BaseGameActivity;
+
+import koemdzhiev.com.mathmadness.utils.Constants;
 
 
 public class StartActivity extends BaseGameActivity implements View.OnClickListener{
     private ImageView mPlay;
+    private SignInButton mSignInButton;
+    private Button mSignOutButton;
+    private Button mAchievements;
+    private Button mLeaderboard;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
+    private boolean isConnected;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
+        mSignInButton = (SignInButton)findViewById(R.id.sign_in_button);
+        mSignInButton.setOnClickListener(this);
+        mSignOutButton = (Button)findViewById(R.id.sign_out_button);
+        mSignOutButton.setOnClickListener(this);
 
         mPlay = (ImageView)findViewById(R.id.startGameView);
         mPlay.setOnClickListener(new View.OnClickListener() {
@@ -33,10 +53,25 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
                 startActivity(intent);
             }
         });
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.show_achievements).setOnClickListener(this);
-        findViewById(R.id.show_leaderboard).setOnClickListener(this);
+
+        mAchievements = (Button) findViewById(R.id.show_achievements);
+        mAchievements.setOnClickListener(this);
+        mLeaderboard = (Button) findViewById(R.id.show_leaderboard);
+        mLeaderboard.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isConnected = mSharedPreferences.getBoolean(Constants.KEY_IS_Google_Api_Client_connected,false);
+        if(isConnected){
+            if(mSignInButton.getVisibility() == View.VISIBLE){
+                mSignInButton.setVisibility(View.INVISIBLE);
+            }
+            if(mSignOutButton.getVisibility() == View.INVISIBLE){
+                mSignOutButton.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
@@ -63,14 +98,20 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
 
     @Override
     public void onSignInFailed() {
-        findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-        findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+        mSignInButton.setVisibility(View.VISIBLE);
+        mSignOutButton.setVisibility(View.GONE);
+        //save to shared preferences
+        mEditor.putBoolean(Constants.KEY_IS_Google_Api_Client_connected, false);
+        mEditor.apply();
     }
 
     @Override
     public void onSignInSucceeded() {
-        findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-        findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+        mSignInButton.setVisibility(View.GONE);
+        mSignOutButton.setVisibility(View.VISIBLE);
+        //save to shared preferences
+        mEditor.putBoolean(Constants.KEY_IS_Google_Api_Client_connected, true);
+        mEditor.apply();
     }
 
     @Override
@@ -79,8 +120,8 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
             beginUserInitiatedSignIn();
         }else if (view.getId() == R.id.sign_out_button) {
             signOut();
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+           mSignInButton.setVisibility(View.VISIBLE);
+            mSignOutButton.setVisibility(View.GONE);
         }else if (view.getId() == R.id.show_achievements){
             if(getApiClient().isConnected()) {
                 startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
