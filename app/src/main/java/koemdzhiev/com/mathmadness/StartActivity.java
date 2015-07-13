@@ -6,16 +6,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.BaseGameActivity;
 
 
-public class StartActivity extends BaseGameActivity implements View.OnClickListener {
+public class StartActivity extends BaseGameActivity implements View.OnClickListener{
     private ImageView mPlay;
+//    private Button mSignOutButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,7 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.show_achievements).setOnClickListener(this);
         findViewById(R.id.show_leaderboard).setOnClickListener(this);
+        //mSignOutButton = (Button)findViewById(R.id.sign_out_button);
     }
 
     @Override
@@ -82,13 +84,27 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }else if (view.getId() == R.id.show_achievements){
-            Toast.makeText(StartActivity.this,"achivements",Toast.LENGTH_SHORT).show();
-            startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
+            if(getApiClient().isConnected()) {
+                startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
+            }else{
+                alertUserForGoogleSignUp();
+            }
         }else if(view.getId() == R.id.show_leaderboard){
-            Toast.makeText(StartActivity.this,"leaderboard",Toast.LENGTH_SHORT).show();
-            startActivityForResult(Games.Leaderboards.getLeaderboardIntent(
-                    getApiClient(), getString(R.string.number_of_solved_math_problems_leaderboard)), 2);
+            if(getApiClient().isConnected()) {
+                startActivityForResult(Games.Leaderboards.getLeaderboardIntent(
+                        getApiClient(), getString(R.string.number_of_solved_math_problems_leaderboard)), 2);
+            }else{
+                alertUserForGoogleSignUp();
+            }
         }
+    }
+
+    private void alertUserForGoogleSignUp() {
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title(R.string.title)
+                .content(R.string.content)
+                .positiveText(R.string.agree)
+                .show();
     }
 
 }

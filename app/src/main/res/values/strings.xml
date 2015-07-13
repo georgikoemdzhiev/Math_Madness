@@ -6,6 +6,10 @@
     <string name="title_activity_start">StartActivity</string>
     <string name="title_activity_game_over">GameOverActivity</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="score_10_achievement">CgkIqNiO5tQKEAIQAw</string>
+    <string name="score_25_achievement">CgkIqNiO5tQKEAIQBA</string>
     <string name="score_50_achievement">CgkIqNiO5tQKEAIQAg</string>
+    <string name="title">ups...</string>
+    <string name="content">You need to sign in with a Google account in order to access this feature.</string>
+    <string name="agree">OK</string>
 </resources>

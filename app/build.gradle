@@ -30,4 +30,6 @@ dependencies {
     compile 'com.daimajia.androidanimations:library:1.1.3@aar'
     //google play game services
     compile 'com.google.android.gms:play-services:7.5.0'
+    //Material dialogs
+    compile 'com.afollestad:material-dialogs:0.7.6.0'
 }
