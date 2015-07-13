@@ -49,6 +49,17 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(findViewById(R.id.sign_in_button).getVisibility() == View.VISIBLE){
+            findViewById(R.id.sign_out_button).setVisibility(View.INVISIBLE);
+        }else{
+            //findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
