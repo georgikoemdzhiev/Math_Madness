@@ -16,7 +16,6 @@ import com.google.example.games.basegameutils.BaseGameActivity;
 
 public class StartActivity extends BaseGameActivity implements View.OnClickListener{
     private ImageView mPlay;
-//    private Button mSignOutButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +37,6 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.show_achievements).setOnClickListener(this);
         findViewById(R.id.show_leaderboard).setOnClickListener(this);
-        //mSignOutButton = (Button)findViewById(R.id.sign_out_button);
     }
 
     @Override
@@ -46,17 +44,6 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_start, menu);
         return true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(findViewById(R.id.sign_in_button).getVisibility() == View.VISIBLE){
-            findViewById(R.id.sign_out_button).setVisibility(View.INVISIBLE);
-        }else{
-            //findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
