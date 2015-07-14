@@ -196,8 +196,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void generateMathProblem() {
-        //generate math operator
-        Random mathOperatorGenerator = new Random();
         //does not include division
         //generate math problem
         isMathProblemTrue = ifTrue.nextInt(2);
@@ -205,44 +203,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (isMathProblemTrue == 1) {
             //generate true equation
             int generateRandomMathOperator = new Random().nextInt(3);
+            int total = 0;
+            firstNumber = new Random().nextInt(10) + 1;
+            secondNumber = new Random().nextInt(10) + 1;
             //Log.d(TAG, "randomMathNumber" + generateRandomMathOperator);
             switch (generateRandomMathOperator) {
                 case 0:
                     mMathOperator.setText("+");
+                    total = firstNumber + secondNumber;
                     break;
                 case 1:
                     mMathOperator.setText("-");
+                    total = firstNumber - secondNumber;
                     break;
                 case 2:
                     mMathOperator.setText("*");
+                    total = firstNumber * secondNumber;
                     break;
-            }
-            int total = 0;
-            boolean equasionIsTrue = false;
-            while (!equasionIsTrue) {
-                firstNumber = new Random().nextInt(10) + 1;
-                secondNumber = new Random().nextInt(10) + 1;
-                sum = new Random().nextInt(10) + 1;
-
-                switch (generateRandomMathOperator) {
-                    case 0:
-                        total = firstNumber + secondNumber;
-                        break;
-                    case 1:
-                        total = firstNumber - secondNumber;
-                        break;
-                    case 2:
-                        total = firstNumber * secondNumber;
-                        break;
-                }
-                boolean isItTrue = total == sum;
-                if (isItTrue == true) {
-                    equasionIsTrue = true;
-                }
             }
             digitOne.setText(firstNumber + "");
             digitTwo.setText(secondNumber + "");
-            mSum.setText(sum + "");
+            mSum.setText(total + "");
         } else {
             // generate false equation
             int generateRandomMathOperator = new Random().nextInt(3);
@@ -260,10 +241,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
             int total = 0;
             boolean equasionIsTrue = true;
+            int counter = 0;
             while (equasionIsTrue) {
+                counter++;
+                Log.d(TAG, "while loop..." + counter);
                 firstNumber = new Random().nextInt(10) + 1;
                 secondNumber = new Random().nextInt(10) + 1;
-                sum = new Random().nextInt(10) + 1;
+                //56 random number here...
+                sum = new Random().nextInt(20) + 1;
 
                 switch (generateRandomMathOperator) {
                     case 0:

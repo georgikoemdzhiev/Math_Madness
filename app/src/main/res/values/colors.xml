@@ -2,6 +2,6 @@
 <resources>
     <color name="disabled">#B8BFAE</color>
     <color name="android_white">@android:color/white</color>
-    <color name="active">#ffa7cc70</color>
+    <color name="active">#719E25</color>
     <color name="active_red">@android:color/holo_red_dark</color>
 </resources>
