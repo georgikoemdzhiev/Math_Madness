@@ -335,11 +335,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if(consecutiveGames == 20){
             timer_length -= 300;
         }
-        if(consecutiveGames == 25){
-            timer_length -= 300;
-        }
         if(consecutiveGames == 30){
-            timer_length -= 100;
+            timer_length -= 300;
         }
     }
 
