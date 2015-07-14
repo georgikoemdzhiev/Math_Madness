@@ -356,11 +356,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 //Log.d(TAG, "progressBar:" + progress);
                 Resources res = getResources();
                 Rect bounds = mProgressBar.getProgressDrawable().getBounds();
-                if (progress < 20) {
+                if (progress < 18) {
                     mProgressBar.setProgressDrawable(ContextCompat.getDrawable(MainActivity.this,R.drawable.progress_bar_red));
                 } else {
-                    mProgressBar.setProgressDrawable(ContextCompat.getDrawable(MainActivity.this,R.drawable.progress_bar_green));
+                    mProgressBar.setProgressDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.progress_bar_green));
                 }
+
                 mProgressBar.getProgressDrawable().setBounds(bounds);
                 mProgressBar.setProgress(progress);
             }
