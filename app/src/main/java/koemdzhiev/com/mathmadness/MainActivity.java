@@ -199,7 +199,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         //generate math operator
         Random mathOperatorGenerator = new Random();
         //does not include division
-        int mathOperator = mathOperatorGenerator.nextInt(3);
         //generate math problem
         isMathProblemTrue = ifTrue.nextInt(2);
         Log.d(TAG, "Math problem true?: " + isMathProblemTrue);
