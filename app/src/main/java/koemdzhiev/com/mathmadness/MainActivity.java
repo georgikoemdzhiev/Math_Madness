@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -159,21 +160,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
-    private void speedUpTimer() {
-        if (timer_length > 3000) {
-            timer_length -= 500;
-        }
-        if (consecutiveGames == 10) {
-            timer_length -= 500;
-        }
-        if (consecutiveGames == 15) {
-            timer_length -= 500;
-        }
-        if(consecutiveGames == 20){
-            timer_length -= 300;
-        }
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -220,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (isMathProblemTrue == 1) {
             //generate true equation
             int generateRandomMathOperator = new Random().nextInt(3);
-            Log.d(TAG, "randomMathNumber" + generateRandomMathOperator);
+            //Log.d(TAG, "randomMathNumber" + generateRandomMathOperator);
             switch (generateRandomMathOperator) {
                 case 0:
                     mMathOperator.setText("+");
@@ -261,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         } else {
             // generate false equation
             int generateRandomMathOperator = new Random().nextInt(3);
-            Log.d(TAG, "randomMathNumber" + generateRandomMathOperator);
+            //Log.d(TAG, "randomMathNumber" + generateRandomMathOperator);
             switch (generateRandomMathOperator) {
                 case 0:
                     mMathOperator.setText("+");
@@ -336,6 +322,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mCountDownTimer.start();  // then restart
     }
 
+    private void speedUpTimer() {
+        if (timer_length > 3000) {
+            timer_length -= 500;
+        }
+        if (consecutiveGames == 10) {
+            timer_length -= 500;
+        }
+        if (consecutiveGames == 15) {
+            timer_length -= 500;
+        }
+        if(consecutiveGames == 20){
+            timer_length -= 300;
+        }
+        if(consecutiveGames == 25){
+            timer_length -= 300;
+        }
+        if(consecutiveGames == 30){
+            timer_length -= 100;
+        }
+    }
+
     private void createTimer() {
         Log.d(TAG, "timer length:" + timer_length);
         mCountDownTimer = new CountDownTimer(timer_length, timer_interval) {
@@ -350,9 +357,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 Resources res = getResources();
                 Rect bounds = mProgressBar.getProgressDrawable().getBounds();
                 if (progress < 20) {
-                    mProgressBar.setProgressDrawable(res.getDrawable(R.drawable.progress_bar_red));
+                    mProgressBar.setProgressDrawable(ContextCompat.getDrawable(MainActivity.this,R.drawable.progress_bar_red));
                 } else {
-                    mProgressBar.setProgressDrawable(res.getDrawable(R.drawable.progress_bar_green));
+                    mProgressBar.setProgressDrawable(ContextCompat.getDrawable(MainActivity.this,R.drawable.progress_bar_green));
                 }
                 mProgressBar.getProgressDrawable().setBounds(bounds);
                 mProgressBar.setProgress(progress);
