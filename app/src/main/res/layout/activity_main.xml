@@ -36,6 +36,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/math_problem_container"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,7 +50,7 @@
             android:text="12"
             android:paddingRight="7dp"
             android:textColor="@android:color/white"
-            android:textSize="70sp"
+            android:textSize="60sp"
             android:id="@+id/digitOne"
             foobar:typeface="JungleFeverNF.otf"/>
 
@@ -60,7 +61,7 @@
             android:paddingRight="7dp"
             android:textColor="@android:color/white"
             android:paddingLeft="7dp"
-            android:textSize="60sp"
+            android:textSize="50sp"
             android:id="@+id/mathOperator"
             foobar:typeface="JungleFeverNF.otf"/>
 
@@ -71,7 +72,7 @@
             android:paddingRight="7dp"
             android:textColor="@android:color/white"
             android:paddingLeft="7dp"
-            android:textSize="70sp"
+            android:textSize="60sp"
             android:id="@+id/digitTwo"
             foobar:typeface="JungleFeverNF.otf"/>
 
@@ -82,7 +83,7 @@
             android:paddingRight="7dp"
             android:textColor="@android:color/white"
             android:paddingEnd="7dp"
-            android:textSize="60sp"
+            android:textSize="50sp"
             android:id="@+id/equalsOperator"
             foobar:typeface="JungleFeverNF.otf"/>
 
@@ -92,7 +93,7 @@
             android:text="52"
             android:paddingLeft="7dp"
             android:textColor="@android:color/white"
-            android:textSize="70sp"
+            android:textSize="60sp"
             android:id="@+id/sum"
             foobar:typeface="JungleFeverNF.otf"/>
     </LinearLayout>

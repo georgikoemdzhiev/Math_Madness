@@ -26,7 +26,7 @@ import koemdzhiev.com.mathmadness.utils.Constants;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener{
+        GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private int isMathProblemTrue;
     private TextView digitOne;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private ImageView mFalseBtn;
     private ProgressBar mProgressBar;
     private CountDownTimer mCountDownTimer;
-    private long timer_length = 5*1000;
+    private long timer_length = 5 * 1000;
     private long timer_interval = 1;
     private int consecutiveGames = 0;
     private Random ifTrue;
@@ -60,16 +60,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                         // add other APIs and scopes here as needed
                 .build();
-
-        digitOne = (TextView)findViewById(R.id.digitOne);
-        digitTwo = (TextView)findViewById(R.id.digitTwo);
-        mMathOperator = (TextView)findViewById(R.id.mathOperator);
-        score = (TextView)findViewById(R.id.score);
-        score.setText("Score: "+consecutiveGames);
-        mSum = (TextView)findViewById(R.id.sum);
-        mTrueBtn = (ImageView)findViewById(R.id.trueButton);
-        mFalseBtn = (ImageView)findViewById(R.id.falseButton);
-        mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
+        digitOne = (TextView) findViewById(R.id.digitOne);
+        digitTwo = (TextView) findViewById(R.id.digitTwo);
+        mMathOperator = (TextView) findViewById(R.id.mathOperator);
+        score = (TextView) findViewById(R.id.score);
+        score.setText("Score: " + consecutiveGames);
+        mSum = (TextView) findViewById(R.id.sum);
+        mTrueBtn = (ImageView) findViewById(R.id.trueButton);
+        mFalseBtn = (ImageView) findViewById(R.id.falseButton);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         createTimer();
         mCountDownTimer.start();
@@ -84,12 +83,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         .duration(100)
                         .playOn(findViewById(R.id.trueButton));
                 //is the user right? if pressing True button
-                if(isMathProblemTrue == 1){
+                if (isMathProblemTrue == 1) {
                     //user is correct
                     //update consecutive variable
                     consecutiveGames++;
                     score.setText("Score: " + consecutiveGames);
-                    if(mGoogleApiClient.isConnected()){
+                    if (mGoogleApiClient.isConnected()) {
                         unlockAchievement();
                         Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.number_of_solved_math_problems_leaderboard), consecutiveGames);
                     }
@@ -100,10 +99,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     createTimer();
                     speedUpTimer();
                     mCountDownTimer.start();
-                }else{
+                } else {
                     //user is incorrect
                     //consecutiveGames = 0;
-                    score.setText("Score: "+consecutiveGames);
+                    score.setText("Score: " + consecutiveGames);
                     transferUserToStartScreen("");
                     mCountDownTimer.cancel(); // cancel
                 }
@@ -118,12 +117,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         .duration(100)
                         .playOn(findViewById(R.id.falseButton));
                 //is the user right? if pressing True button
-                if(isMathProblemTrue == 0){
+                if (isMathProblemTrue == 0) {
                     //user is correct
                     //update consecutive variable
                     consecutiveGames++;
                     score.setText("Score: " + consecutiveGames);
-                    if(mGoogleApiClient.isConnected()){
+                    if (mGoogleApiClient.isConnected()) {
                         unlockAchievement();
                         Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.number_of_solved_math_problems_leaderboard), consecutiveGames);
                     }
@@ -133,11 +132,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     createTimer();
                     speedUpTimer();
                     mCountDownTimer.start();
-                }else{
+                } else {
                     //user is incorrect
                     //update consecutive variable
                     //consecutiveGames = 0;
-                    score.setText("Score: "+consecutiveGames);
+                    score.setText("Score: " + consecutiveGames);
                     transferUserToStartScreen("");
                     mCountDownTimer.cancel();
                 }
@@ -149,30 +148,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void unlockAchievement() {
-        if(consecutiveGames == 10){
-            Games.Achievements.unlock(mGoogleApiClient,getString(R.string.score_10_achievement));
+        if (consecutiveGames == 10) {
+            Games.Achievements.unlock(mGoogleApiClient, getString(R.string.score_10_achievement));
         }
-        if(consecutiveGames == 25){
-            Games.Achievements.unlock(mGoogleApiClient,getString(R.string.score_25_achievement));
+        if (consecutiveGames == 25) {
+            Games.Achievements.unlock(mGoogleApiClient, getString(R.string.score_25_achievement));
         }
-        if(consecutiveGames == 50){
+        if (consecutiveGames == 50) {
             Games.Achievements.unlock(mGoogleApiClient, getString(R.string.score_50_achievement));
         }
     }
 
     private void speedUpTimer() {
-        if(timer_length > 3000){
+        if (timer_length > 3000) {
             timer_length -= 500;
         }
-        if(consecutiveGames == 10){
+        if (consecutiveGames == 10) {
             timer_length -= 500;
         }
-        if(consecutiveGames == 15){
+        if (consecutiveGames == 15) {
             timer_length -= 500;
         }
-//        if(consecutiveGames == 20){
-//            timer_length -= 500;
-//        }
+        if(consecutiveGames == 20){
+            timer_length -= 300;
+        }
     }
 
     @Override
@@ -218,65 +217,87 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         //generate math problem
         isMathProblemTrue = ifTrue.nextInt(2);
         Log.d(TAG, "Math problem true?: " + isMathProblemTrue);
-        if(isMathProblemTrue == 1){
+        if (isMathProblemTrue == 1) {
             //generate true equation
             int generateRandomMathOperator = new Random().nextInt(3);
-            Log.d(TAG,"randomMathNumber"+ generateRandomMathOperator);
-            switch (generateRandomMathOperator){
-                case 0:mMathOperator.setText("+");break;
-                case 1:mMathOperator.setText("-");break;
-                case 2:mMathOperator.setText("*");break;
+            Log.d(TAG, "randomMathNumber" + generateRandomMathOperator);
+            switch (generateRandomMathOperator) {
+                case 0:
+                    mMathOperator.setText("+");
+                    break;
+                case 1:
+                    mMathOperator.setText("-");
+                    break;
+                case 2:
+                    mMathOperator.setText("*");
+                    break;
             }
             int total = 0;
             boolean equasionIsTrue = false;
-            while(!equasionIsTrue){
-                firstNumber = new Random().nextInt(10)+1;
-                 secondNumber = new Random().nextInt(10)+1;
-                 sum = new Random().nextInt(10)+1;
+            while (!equasionIsTrue) {
+                firstNumber = new Random().nextInt(10) + 1;
+                secondNumber = new Random().nextInt(10) + 1;
+                sum = new Random().nextInt(10) + 1;
 
-                switch (generateRandomMathOperator){
-                    case 0:total = firstNumber + secondNumber;break;
-                    case 1:total = firstNumber - secondNumber;break;
-                    case 2:total = firstNumber * secondNumber;break;
+                switch (generateRandomMathOperator) {
+                    case 0:
+                        total = firstNumber + secondNumber;
+                        break;
+                    case 1:
+                        total = firstNumber - secondNumber;
+                        break;
+                    case 2:
+                        total = firstNumber * secondNumber;
+                        break;
                 }
                 boolean isItTrue = total == sum;
-                if(isItTrue == true){
+                if (isItTrue == true) {
                     equasionIsTrue = true;
                 }
             }
-            digitOne.setText(firstNumber+"");
-            digitTwo.setText(secondNumber+"");
+            digitOne.setText(firstNumber + "");
+            digitTwo.setText(secondNumber + "");
             mSum.setText(sum + "");
-        }
-
-        else{
+        } else {
             // generate false equation
             int generateRandomMathOperator = new Random().nextInt(3);
-            Log.d(TAG,"randomMathNumber"+ generateRandomMathOperator);
-            switch (generateRandomMathOperator){
-                case 0:mMathOperator.setText("+");break;
-                case 1:mMathOperator.setText("-");break;
-                case 2:mMathOperator.setText("*");break;
+            Log.d(TAG, "randomMathNumber" + generateRandomMathOperator);
+            switch (generateRandomMathOperator) {
+                case 0:
+                    mMathOperator.setText("+");
+                    break;
+                case 1:
+                    mMathOperator.setText("-");
+                    break;
+                case 2:
+                    mMathOperator.setText("*");
+                    break;
             }
             int total = 0;
             boolean equasionIsTrue = true;
-            while(equasionIsTrue){
-                firstNumber = new Random().nextInt(10)+1;
-                secondNumber = new Random().nextInt(10)+1;
-                sum = new Random().nextInt(10)+1;
+            while (equasionIsTrue) {
+                firstNumber = new Random().nextInt(10) + 1;
+                secondNumber = new Random().nextInt(10) + 1;
+                sum = new Random().nextInt(10) + 1;
 
-                switch (generateRandomMathOperator){
-                    case 0:total = firstNumber + secondNumber;break;
-                    case 1:total = firstNumber - secondNumber;break;
-                    case 2:total = firstNumber * secondNumber;break;
+                switch (generateRandomMathOperator) {
+                    case 0:
+                        total = firstNumber + secondNumber;
+                        break;
+                    case 1:
+                        total = firstNumber - secondNumber;
+                        break;
+                    case 2:
+                        total = firstNumber * secondNumber;
+                        break;
                 }
                 boolean isItTrue = total == sum;
-                if(isItTrue == false){
+                if (isItTrue == false) {
                     equasionIsTrue = false;
                 }
             }
-            digitOne.setText(firstNumber+"");
-            digitTwo.setText(secondNumber+"");
+            digitOne.setText(firstNumber + "");
+            digitTwo.setText(secondNumber + "");
             mSum.setText(sum + "");
         }
 
@@ -287,6 +308,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onStart();
         mGoogleApiClient.connect();
     }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -295,16 +317,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void transferUserToStartScreen(String str) {
         String toBeSend = "";
-        if(!str.equals("Time's up!")) {
+        if (!str.equals("Time's up!")) {
             //Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
             toBeSend = digitOne.getText().toString() + mMathOperator.getText().toString() +
                     digitTwo.getText().toString() + "=" + mSum.getText().toString();
-        }else{
+        } else {
             toBeSend = str;
         }
         Intent intent = new Intent(MainActivity.this, GameOverActivity.class);
         intent.putExtra(Constants.KEY_MATH_EQ, toBeSend);
-        intent.putExtra(Constants.KEY_SCORE,consecutiveGames);
+        intent.putExtra(Constants.KEY_SCORE, consecutiveGames);
         startActivity(intent);
     }
 
@@ -315,23 +337,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void createTimer() {
-        Log.d(TAG,"timer length:"+timer_length);
-        mCountDownTimer = new CountDownTimer(timer_length,timer_interval) {
+        Log.d(TAG, "timer length:" + timer_length);
+        mCountDownTimer = new CountDownTimer(timer_length, timer_interval) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if(firstTime){totalMillisUntilFinished = millisUntilFinished; firstTime = false;}
-                int progress = (int) (millisUntilFinished*100/totalMillisUntilFinished);
+                if (firstTime) {
+                    totalMillisUntilFinished = millisUntilFinished;
+                    firstTime = false;
+                }
+                int progress = (int) (millisUntilFinished * 100 / totalMillisUntilFinished);
                 //Log.d(TAG, "progressBar:" + progress);
                 Resources res = getResources();
                 Rect bounds = mProgressBar.getProgressDrawable().getBounds();
-                if(progress < 20){
+                if (progress < 20) {
                     mProgressBar.setProgressDrawable(res.getDrawable(R.drawable.progress_bar_red));
-                }else{
+                } else {
                     mProgressBar.setProgressDrawable(res.getDrawable(R.drawable.progress_bar_green));
                 }
                 mProgressBar.getProgressDrawable().setBounds(bounds);
                 mProgressBar.setProgress(progress);
             }
+
             @Override
             public void onFinish() {
                 mProgressBar.setProgress(0);
