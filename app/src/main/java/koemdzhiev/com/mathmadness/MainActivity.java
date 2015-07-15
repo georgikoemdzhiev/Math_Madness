@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private long timer_length = 5 * 1000;
     private long timer_interval = 1;
     private int consecutiveGames = 0;
-    private Random ifTrue;
+    private Random ifMathProblemTrueRandom;
     private int firstNumber = 0;
     private int secondNumber = 0;
     private int sum = 0;
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         createTimer();
         mCountDownTimer.start();
 
-        ifTrue = new Random();
+        ifMathProblemTrueRandom = new Random();
 
         mTrueBtn.setOnClickListener(trueButtonListener);
 
@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void generateMathProblem() {
         //does not include division
         //generate math problem
-        isMathProblemTrue = ifTrue.nextInt(2);
+        isMathProblemTrue = ifMathProblemTrueRandom.nextInt(2);
         Log.d(TAG, "Math problem true?: " + isMathProblemTrue);
         if (isMathProblemTrue == 1) {
             //generate true equation
@@ -376,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnectionSuspended(int i) {
-        mGoogleApiClient.connect();
+        //mGoogleApiClient.connect();
     }
 
     @Override

@@ -9,7 +9,8 @@
     <string name="score_10_achievement">CgkIqNiO5tQKEAIQAw</string>
     <string name="score_25_achievement">CgkIqNiO5tQKEAIQBA</string>
     <string name="score_50_achievement">CgkIqNiO5tQKEAIQAg</string>
-    <string name="title">ups...</string>
+    <string name="addicted_200_times_play_achievement">CgkIqNiO5tQKEAIQBQ</string>
+    <string name="title">ups…</string>
     <string name="content">You need to sign in with a Google account in order to access this feature.</string>
     <string name="agree">OK</string>
     <string name="signin_other_error">There was an issue with sign in. Please try again later.</string>

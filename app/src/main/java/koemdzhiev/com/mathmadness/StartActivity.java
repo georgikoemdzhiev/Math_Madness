@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,14 +15,17 @@ import android.widget.ImageView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
-import com.google.example.games.basegameutils.BaseGameActivity;
+import com.google.android.gms.plus.Plus;
+import com.google.example.games.basegameutils.BaseGameUtils;
 
-import koemdzhiev.com.mathmadness.utils.Constants;
 
-
-public class StartActivity extends BaseGameActivity implements View.OnClickListener{
+public class StartActivity extends AppCompatActivity implements View.OnClickListener,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+    private static final String TAG = StartActivity.class.getSimpleName();
     private ImageView mPlay;
     private SignInButton mSignInButton;
     private Button mSignOutButton;
@@ -28,7 +33,22 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
     private Button mLeaderboard;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
-    private boolean isConnected;
+//    private boolean isConnected;
+    // Request code used to invoke sign in user interactions.
+    private static final int RC_SIGN_IN = 9001;
+
+    // Client used to interact with Google APIs.
+    private GoogleApiClient mGoogleApiClient;
+
+    // Are we currently resolving a connection failure?
+    private boolean mResolvingConnectionFailure = false;
+
+    // Has the user clicked the sign-in button?
+    private boolean mSignInClicked = false;
+
+    // Set to true to automatically start the sign in flow when the Activity starts.
+    // Set to false to require the user to click the button in order to sign in.
+    private boolean mAutoStartSignInFlow = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +60,13 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
         mSignInButton.setOnClickListener(this);
         mSignOutButton = (Button)findViewById(R.id.sign_out_button);
         mSignOutButton.setOnClickListener(this);
+// Create the Google Api Client with access to Plus and Games
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN)
+                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
+                .build();
 
         mPlay = (ImageView)findViewById(R.id.startGameView);
         mPlay.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +76,10 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
                 YoYo.with(Techniques.Pulse)
                         .duration(200)
                         .playOn(findViewById(R.id.startGameView));
+                //increment the incremental achievement by 1 for each time the user play the game
+                if (mGoogleApiClient.isConnected()) {
+                    Games.Achievements.increment(mGoogleApiClient, getString(R.string.addicted_200_times_play_achievement), 1);
+                }
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -63,15 +94,33 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        isConnected = mSharedPreferences.getBoolean(Constants.KEY_IS_Google_Api_Client_connected,false);
-        if(isConnected){
-            if(mSignInButton.getVisibility() == View.VISIBLE){
-                mSignInButton.setVisibility(View.INVISIBLE);
-            }
-            if(mSignOutButton.getVisibility() == View.INVISIBLE){
-                mSignOutButton.setVisibility(View.VISIBLE);
-            }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+    protected void onStop() {
+        Log.d(TAG, "onStop()");
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
         }
+    }
+
+    // Shows the "sign in" bar (explanation and button).
+    private void showSignInBar() {
+        Log.d(TAG, "Showing sign in bar");
+        findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+        findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+    }
+
+    // Shows the "sign out" bar (explanation and button).
+    private void showSignOutBar() {
+        Log.d(TAG, "Showing sign out bar");
+        findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+        findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -96,42 +145,33 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onSignInFailed() {
-        mSignInButton.setVisibility(View.VISIBLE);
-        mSignOutButton.setVisibility(View.GONE);
-        //save to shared preferences
-        mEditor.putBoolean(Constants.KEY_IS_Google_Api_Client_connected, false);
-        mEditor.apply();
-    }
-
-    @Override
-    public void onSignInSucceeded() {
-        mSignInButton.setVisibility(View.GONE);
-        mSignOutButton.setVisibility(View.VISIBLE);
-        //save to shared preferences
-        mEditor.putBoolean(Constants.KEY_IS_Google_Api_Client_connected, true);
-        mEditor.apply();
-    }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.sign_in_button) {
-            beginUserInitiatedSignIn();
+            // start the sign-in flow
+            Log.d(TAG, "Sign-in button clicked");
+            mSignInClicked = true;
+            mGoogleApiClient.connect();
+
         }else if (view.getId() == R.id.sign_out_button) {
-            signOut();
-           mSignInButton.setVisibility(View.VISIBLE);
-            mSignOutButton.setVisibility(View.GONE);
+            // sign out.
+            Log.d(TAG, "Sign-out button clicked");
+            mSignInClicked = false;
+            Games.signOut(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+            showSignInBar();
+
         }else if (view.getId() == R.id.show_achievements){
-            if(getApiClient().isConnected()) {
-                startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
+            if(mGoogleApiClient.isConnected()) {
+                startActivityForResult(Games.Achievements.getAchievementsIntent(mGoogleApiClient), 1);
             }else{
                 alertUserForGoogleSignUp();
             }
         }else if(view.getId() == R.id.show_leaderboard){
-            if(getApiClient().isConnected()) {
+            if(mGoogleApiClient.isConnected()) {
                 startActivityForResult(Games.Leaderboards.getLeaderboardIntent(
-                        getApiClient(), getString(R.string.number_of_solved_math_problems_leaderboard)), 2);
+                        mGoogleApiClient, getString(R.string.number_of_solved_math_problems_leaderboard)), 2);
             }else{
                 alertUserForGoogleSignUp();
             }
@@ -146,4 +186,46 @@ public class StartActivity extends BaseGameActivity implements View.OnClickListe
                 .show();
     }
 
+    @Override
+    public void onConnected(Bundle bundle) {
+        Log.d(TAG, "onConnected() called. Sign in successful!");
+        showSignOutBar();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.d(TAG, "onConnectionSuspended() called. Trying to reconnect.");
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.d(TAG, "onConnectionFailed() called, result: " + connectionResult);
+
+        if (mResolvingConnectionFailure) {
+            Log.d(TAG, "onConnectionFailed() ignoring connection failure; already resolving.");
+            return;
+        }
+
+        if (mSignInClicked || mAutoStartSignInFlow) {
+            mAutoStartSignInFlow = false;
+            mSignInClicked = false;
+            mResolvingConnectionFailure = BaseGameUtils.resolveConnectionFailure(this, mGoogleApiClient,
+                    connectionResult, RC_SIGN_IN, getString(R.string.signin_other_error));
+        }
+        showSignInBar();
+    }
+    protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
+        if (requestCode == RC_SIGN_IN) {
+            Log.d(TAG, "onActivityResult with requestCode == RC_SIGN_IN, responseCode="
+                    + responseCode + ", intent=" + intent);
+            mSignInClicked = false;
+            mResolvingConnectionFailure = false;
+            if (responseCode == RESULT_OK) {
+                mGoogleApiClient.connect();
+            } else {
+                BaseGameUtils.showActivityResultError(this,requestCode,responseCode, R.string.signin_other_error);
+            }
+        }
+    }
 }
