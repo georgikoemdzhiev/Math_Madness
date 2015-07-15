@@ -282,7 +282,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onStop() {
         super.onStop();
-        mGoogleApiClient.disconnect();
+        if(mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
     }
 
     private void transferUserToStartScreen(String str) {
