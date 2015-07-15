@@ -12,4 +12,5 @@
     <string name="title">ups...</string>
     <string name="content">You need to sign in with a Google account in order to access this feature.</string>
     <string name="agree">OK</string>
+    <string name="signin_other_error">There was an issue with sign in. Please try again later.</string>
 </resources>

@@ -1,7 +1,6 @@
 package koemdzhiev.com.mathmadness;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -20,6 +19,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
+import com.google.example.games.basegameutils.BaseGameUtils;
 
 import java.util.Random;
 
@@ -49,6 +49,76 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private long totalMillisUntilFinished = 0;
     private boolean firstTime = true;
     private GoogleApiClient mGoogleApiClient;
+    // Request code used to invoke sign in user interactions.
+    private static final int RC_SIGN_IN = 9001;
+    private View.OnClickListener trueButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //Log.d(TAG,"true button pressed");
+            //play animations
+            YoYo.with(Techniques.Pulse)
+                    .duration(100)
+                    .playOn(findViewById(R.id.trueButton));
+            //is the user right? if pressing True button
+            if (isMathProblemTrue == 1) {
+                //user is correct
+                //update consecutive variable
+                consecutiveGames++;
+                score.setText("Score: " + consecutiveGames);
+                if (mGoogleApiClient.isConnected()) {
+                    unlockAchievement();
+                    Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.number_of_solved_math_problems_leaderboard), consecutiveGames);
+                }
+
+                //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
+                generateMathProblem();
+                mCountDownTimer.cancel();
+                createTimer();
+                speedUpTimer();
+                mCountDownTimer.start();
+            } else {
+                //user is incorrect
+                //consecutiveGames = 0;
+                score.setText("Score: " + consecutiveGames);
+                transferUserToStartScreen("");
+                mCountDownTimer.cancel(); // cancel
+            }
+        }
+    };
+    private View.OnClickListener falseButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //Log.d(TAG,"false button pressed");
+            //play animations
+            YoYo.with(Techniques.Pulse)
+                    .duration(100)
+                    .playOn(findViewById(R.id.falseButton));
+            //is the user right? if pressing True button
+            if (isMathProblemTrue == 0) {
+                //user is correct
+                //update consecutive variable
+                consecutiveGames++;
+                score.setText("Score: " + consecutiveGames);
+                if (mGoogleApiClient.isConnected()) {
+                    unlockAchievement();
+                    Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.number_of_solved_math_problems_leaderboard), consecutiveGames);
+                }
+                //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
+                generateMathProblem();
+                mCountDownTimer.cancel();
+                createTimer();
+                speedUpTimer();
+                mCountDownTimer.start();
+            } else {
+                //user is incorrect
+                //update consecutive variable
+                //consecutiveGames = 0;
+                score.setText("Score: " + consecutiveGames);
+                transferUserToStartScreen("");
+                mCountDownTimer.cancel();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,73 +146,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         ifTrue = new Random();
 
-        mTrueBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //play animations
-                YoYo.with(Techniques.Pulse)
-                        .duration(100)
-                        .playOn(findViewById(R.id.trueButton));
-                //is the user right? if pressing True button
-                if (isMathProblemTrue == 1) {
-                    //user is correct
-                    //update consecutive variable
-                    consecutiveGames++;
-                    score.setText("Score: " + consecutiveGames);
-                    if (mGoogleApiClient.isConnected()) {
-                        unlockAchievement();
-                        Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.number_of_solved_math_problems_leaderboard), consecutiveGames);
-                    }
+        mTrueBtn.setOnClickListener(trueButtonListener);
 
-                    //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
-                    generateMathProblem();
-                    mCountDownTimer.cancel();
-                    createTimer();
-                    speedUpTimer();
-                    mCountDownTimer.start();
-                } else {
-                    //user is incorrect
-                    //consecutiveGames = 0;
-                    score.setText("Score: " + consecutiveGames);
-                    transferUserToStartScreen("");
-                    mCountDownTimer.cancel(); // cancel
-                }
-            }
-        });
-
-        mFalseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //play animations
-                YoYo.with(Techniques.Pulse)
-                        .duration(100)
-                        .playOn(findViewById(R.id.falseButton));
-                //is the user right? if pressing True button
-                if (isMathProblemTrue == 0) {
-                    //user is correct
-                    //update consecutive variable
-                    consecutiveGames++;
-                    score.setText("Score: " + consecutiveGames);
-                    if (mGoogleApiClient.isConnected()) {
-                        unlockAchievement();
-                        Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.number_of_solved_math_problems_leaderboard), consecutiveGames);
-                    }
-                    //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
-                    generateMathProblem();
-                    mCountDownTimer.cancel();
-                    createTimer();
-                    speedUpTimer();
-                    mCountDownTimer.start();
-                } else {
-                    //user is incorrect
-                    //update consecutive variable
-                    //consecutiveGames = 0;
-                    score.setText("Score: " + consecutiveGames);
-                    transferUserToStartScreen("");
-                    mCountDownTimer.cancel();
-                }
-            }
-        });
+        mFalseBtn.setOnClickListener(falseButtonListener);
 
         generateMathProblem();
 
@@ -170,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onResume() {
         super.onResume();
         generateMathProblem();
+        //setting the listeners again
+        mTrueBtn.setOnClickListener(trueButtonListener);
+        mFalseBtn.setOnClickListener(falseButtonListener);
         restartTimer();
     }
 
@@ -336,22 +345,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     firstTime = false;
                 }
                 int progress = (int) (millisUntilFinished * 100 / totalMillisUntilFinished);
-                //Log.d(TAG, "progressBar:" + progress);
-                Resources res = getResources();
+                Log.d(TAG, "progressBar:" + progress);
                 Rect bounds = mProgressBar.getProgressDrawable().getBounds();
                 if (progress < 18) {
                     mProgressBar.setProgressDrawable(ContextCompat.getDrawable(MainActivity.this,R.drawable.progress_bar_red));
                 } else {
                     mProgressBar.setProgressDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.progress_bar_green));
                 }
-
                 mProgressBar.getProgressDrawable().setBounds(bounds);
                 mProgressBar.setProgress(progress);
+
             }
 
             @Override
             public void onFinish() {
                 mProgressBar.setProgress(0);
+                //set the buttons to null listeners to prevent user of pressing the buttons when the timer is finished
+                //that could cause resetting the timer at the wrong timer
+                mTrueBtn.setOnClickListener(null);
+                mFalseBtn.setOnClickListener(null);
                 transferUserToStartScreen("Time's up!");
             }
         };
@@ -364,11 +376,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        BaseGameUtils.resolveConnectionFailure(this, mGoogleApiClient,
+                connectionResult, RC_SIGN_IN, getString(R.string.signin_other_error));
     }
 }
