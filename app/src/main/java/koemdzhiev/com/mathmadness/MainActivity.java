@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     firstTime = false;
                 }
                 int progress = (int) (millisUntilFinished * 100 / totalMillisUntilFinished);
-                Log.d(TAG, "progressBar:" + progress);
+                //Log.d(TAG, "progressBar:" + progress);
                 Rect bounds = mProgressBar.getProgressDrawable().getBounds();
                 if (progress < 18) {
                     mProgressBar.setProgressDrawable(ContextCompat.getDrawable(MainActivity.this,R.drawable.progress_bar_red));
