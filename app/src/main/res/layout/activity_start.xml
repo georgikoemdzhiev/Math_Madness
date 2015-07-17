@@ -19,9 +19,10 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/startGameView"
+        android:id="@+id/linearLayout"
+        android:layout_above="@+id/advanced_mode_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="117dp">
+        android:layout_marginBottom="45dp">
         <!-- show achievements -->
         <Button
             android:id="@+id/show_achievements"
@@ -44,7 +45,8 @@
         android:weightSum="100"
         android:layout_alignBottom="@+id/startGameView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout2">
 
         <!-- sign-in button -->
         <com.google.android.gms.common.SignInButton
@@ -63,12 +65,15 @@
             android:layout_weight="50"/>
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ADVANCED MODE"
+    <ImageView
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:src="@drawable/advanced"
         android:id="@+id/advanced_mode_button"
-        android:layout_above="@+id/startGameView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="42dp"/>
+        android:layout_alignBottom="@+id/startGameView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="18dp"
+        android:layout_marginEnd="18dp"/>
+
 </RelativeLayout>

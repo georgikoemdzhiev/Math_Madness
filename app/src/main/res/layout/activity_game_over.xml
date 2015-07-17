@@ -14,9 +14,10 @@
         android:text="Score: 23"
         android:textColor="@android:color/white"
         android:id="@+id/score"
-        android:layout_alignParentTop="true"
+        foobar:typeface="JungleFeverNF.otf"
+        android:layout_above="@+id/goToHome"
         android:layout_centerHorizontal="true"
-        foobar:typeface="JungleFeverNF.otf"/>
+        android:layout_marginBottom="141dp"/>
 
 
     <com.ctrlplusz.anytextview.AnyTextView
@@ -26,10 +27,9 @@
         android:text="You are wrong!"
         android:textColor="@android:color/white"
         android:id="@+id/userIsWrontTextView"
-        android:layout_below="@+id/score"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
-        foobar:typeface="JungleFeverNF.otf"/>
+        foobar:typeface="JungleFeverNF.otf"
+        android:layout_above="@+id/score"
+        android:layout_centerHorizontal="true"/>
 
     <com.ctrlplusz.anytextview.AnyTextView
         android:layout_width="wrap_content"
@@ -37,35 +37,37 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="result"
         android:id="@+id/mathEquasion"
-        android:layout_alignParentTop="true"
         android:textColor="@android:color/white"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="89dp"
-        foobar:typeface="JungleFeverNF.otf"/>
+        foobar:typeface="JungleFeverNF.otf"
+        android:layout_above="@+id/userIsWrontTextView"
+        android:layout_centerHorizontal="true"/>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
+    <ImageView
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:id="@+id/playAgainBtn"
+        android:src="@drawable/play"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:layout_marginBottom="10dp">
+        android:layout_toLeftOf="@+id/mathEquasion"
+        android:layout_toStartOf="@+id/mathEquasion"/>
 
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:id="@+id/goToHome"
-            android:src="@drawable/home_icon"
-            android:layout_marginBottom="15dp"
-            />
-        <ImageView
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:id="@+id/playAgainBtn"
-            android:src="@drawable/play"
-           />
-    </LinearLayout>
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/goToHome"
+        android:src="@drawable/home_icon"
+        android:layout_marginBottom="41dp"
+        android:layout_above="@+id/playAgainBtn"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:src="@drawable/advanced"
+        android:id="@+id/playAdvancedAgainBtn"
+        android:layout_alignTop="@+id/playAgainBtn"
+        android:layout_toRightOf="@+id/mathEquasion"
+        android:layout_toEndOf="@+id/mathEquasion"/>
 
 
 </RelativeLayout>

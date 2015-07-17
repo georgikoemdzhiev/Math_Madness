@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final String TAG = MainActivity.class.getSimpleName();
     private int isMathProblemTrue;
     private TextView mDigitOne,mDigitTwo,mDigitThree,mLeftBracket,mRightBracket;
-    private TextView mMathOperator,mMathOperator2;
-    private TextView score;
+    private TextView mMathOperator,mMathOperator2,mEqualsOperator;
+    private TextView mScore;
     private TextView mSum;
     private ImageView mTrueBtn,mFalseBtn;
     private ProgressBar mProgressBar;
@@ -64,10 +65,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 //user is correct
                 //update consecutive variable
                 consecutiveGames++;
-                score.setText("Score: " + consecutiveGames);
+                mScore.setText("Score: " + consecutiveGames);
                 if (mGoogleApiClient.isConnected()) {
                     unlockAchievement();
                     if(!mIsAdvancedMode) {
+                        //normal mode
                         Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.normal_mode_leaderboard), consecutiveGames);
                     }else{
                         //advanced mode
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             } else {
                 //user is incorrect
                 //consecutiveGames = 0;
-                score.setText("Score: " + consecutiveGames);
+                mScore.setText("Score: " + consecutiveGames);
                 transferUserToStartScreen("");
                 mCountDownTimer.cancel(); // cancel
             }
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 //user is correct
                 //update consecutive variable
                 consecutiveGames++;
-                score.setText("Score: " + consecutiveGames);
+                mScore.setText("Score: " + consecutiveGames);
                 if (mGoogleApiClient.isConnected()) {
                     unlockAchievement();
                     if(!mIsAdvancedMode) {
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 //user is incorrect
                 //update consecutive variable
                 //consecutiveGames = 0;
-                score.setText("Score: " + consecutiveGames);
+                mScore.setText("Score: " + consecutiveGames);
                 transferUserToStartScreen("");
                 mCountDownTimer.cancel();
             }
@@ -148,8 +150,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mRightBracket = (TextView)findViewById(R.id.rightBracket);
         mMathOperator = (TextView) findViewById(R.id.mathOperator);
         mMathOperator2 = (TextView)findViewById(R.id.mathOperator2);
-        score = (TextView) findViewById(R.id.score);
-        score.setText("Score: " + consecutiveGames);
+        mEqualsOperator = (TextView)findViewById(R.id.equalsOperator);
+        mScore = (TextView) findViewById(R.id.score);
+        mScore.setText("Score: " + consecutiveGames);
         mSum = (TextView) findViewById(R.id.sum);
         mTrueBtn = (ImageView) findViewById(R.id.trueButton);
         mFalseBtn = (ImageView) findViewById(R.id.falseButton);
@@ -168,7 +171,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if(mIsAdvancedMode){
             showAdvancedModeFeatures();
         }else{
+            //normal mode
             hideAdvancedModeFeatures();
+            //increase the text size of the followings:
+            mDigitOne.setTextSize(TypedValue.COMPLEX_UNIT_SP, 70);
+            mDigitTwo.setTextSize(TypedValue.COMPLEX_UNIT_SP, 70);
+            mSum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 70);
+            mMathOperator.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
+
         }
         generateMathProblem();
 

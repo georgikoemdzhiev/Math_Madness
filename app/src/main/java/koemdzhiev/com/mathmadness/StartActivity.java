@@ -27,7 +27,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
     private static final String TAG = StartActivity.class.getSimpleName();
     private ImageView mPlay;
-    private Button mPlayAdvancedMode;
+    private ImageView mPlayAdvancedMode;
     private SignInButton mSignInButton;
     private Button mSignOutButton;
     private Button mAchievements;
@@ -56,10 +56,14 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_start);
 //        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 //        mEditor = mSharedPreferences.edit();
-        mPlayAdvancedMode = (Button)findViewById(R.id.advanced_mode_button);
+        mPlayAdvancedMode = (ImageView)findViewById(R.id.advanced_mode_button);
         mPlayAdvancedMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //play animations
+                YoYo.with(Techniques.Pulse)
+                        .duration(200)
+                        .playOn(findViewById(R.id.advanced_mode_button));
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 intent.putExtra(Constants.KEY_IS_ADVANCED_MODE, true);
                 startActivity(intent);
