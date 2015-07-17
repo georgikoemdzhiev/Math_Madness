@@ -14,7 +14,10 @@
         android:src="@drawable/play"
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/linearLayout"
-        android:layout_alignStart="@+id/linearLayout"/>
+        android:layout_alignStart="@+id/linearLayout"
+        android:scaleType="fitXY"
+        android:nestedScrollingEnabled="false"
+        android:adjustViewBounds="true"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -72,6 +75,8 @@
         android:id="@+id/advanced_mode_button"
         android:layout_alignBottom="@+id/startGameView"
         android:layout_alignRight="@+id/linearLayout"
-        android:layout_alignEnd="@+id/linearLayout"/>
+        android:layout_alignEnd="@+id/linearLayout"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"/>
 
 </RelativeLayout>
