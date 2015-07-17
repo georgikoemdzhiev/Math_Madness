@@ -64,6 +64,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 YoYo.with(Techniques.Pulse)
                         .duration(200)
                         .playOn(findViewById(R.id.advanced_mode_button));
+                incrementAchievement();
+                
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 intent.putExtra(Constants.KEY_IS_ADVANCED_MODE, true);
                 startActivity(intent);
@@ -89,10 +91,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 YoYo.with(Techniques.Pulse)
                         .duration(200)
                         .playOn(findViewById(R.id.startGameView));
-                //increment the incremental achievement by 1 for each time the user play the game
-                if (mGoogleApiClient.isConnected()) {
-                    Games.Achievements.increment(mGoogleApiClient, getString(R.string.addicted_200_times_play_achievement), 1);
-                }
+                incrementAchievement();
+
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 intent.putExtra(Constants.KEY_IS_ADVANCED_MODE,false);
                 startActivity(intent);
@@ -103,6 +103,13 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         mAchievements.setOnClickListener(this);
         mLeaderboard = (Button) findViewById(R.id.show_leaderboard);
         mLeaderboard.setOnClickListener(this);
+    }
+
+    private void incrementAchievement() {
+        //increment the incremental achievement by 1 for each time the user play the game
+        if (mGoogleApiClient.isConnected()) {
+            Games.Achievements.increment(mGoogleApiClient, getString(R.string.addicted_200_times_play_achievement), 1);
+        }
     }
 
     @Override

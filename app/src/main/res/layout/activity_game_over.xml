@@ -15,9 +15,9 @@
         android:textColor="@android:color/white"
         android:id="@+id/score"
         foobar:typeface="JungleFeverNF.otf"
-        android:layout_above="@+id/goToHome"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="141dp"/>
+        android:layout_marginTop="183dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
 
     <com.ctrlplusz.anytextview.AnyTextView
@@ -28,7 +28,7 @@
         android:textColor="@android:color/white"
         android:id="@+id/userIsWrontTextView"
         foobar:typeface="JungleFeverNF.otf"
-        android:layout_above="@+id/score"
+        android:layout_below="@+id/mathEquasion"
         android:layout_centerHorizontal="true"/>
 
     <com.ctrlplusz.anytextview.AnyTextView
@@ -39,35 +39,16 @@
         android:id="@+id/mathEquasion"
         android:textColor="@android:color/white"
         foobar:typeface="JungleFeverNF.otf"
-        android:layout_above="@+id/userIsWrontTextView"
+        android:layout_below="@+id/score"
         android:layout_centerHorizontal="true"/>
 
     <ImageView
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:id="@+id/playAgainBtn"
-        android:src="@drawable/play"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/mathEquasion"
-        android:layout_toStartOf="@+id/mathEquasion"/>
-
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:id="@+id/goToHome"
         android:src="@drawable/home_icon"
-        android:layout_marginBottom="41dp"
-        android:layout_above="@+id/playAgainBtn"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
-
-    <ImageView
-        android:layout_width="115dp"
-        android:layout_height="115dp"
-        android:src="@drawable/advanced"
-        android:id="@+id/playAdvancedAgainBtn"
-        android:layout_alignTop="@+id/playAgainBtn"
-        android:layout_toRightOf="@+id/mathEquasion"
-        android:layout_toEndOf="@+id/mathEquasion"/>
 
 
 </RelativeLayout>

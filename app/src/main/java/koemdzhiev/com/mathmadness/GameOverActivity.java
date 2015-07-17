@@ -17,8 +17,6 @@ import koemdzhiev.com.mathmadness.utils.Constants;
 
 public class GameOverActivity extends AppCompatActivity {
     private TextView mMathEquasion;
-    private ImageView mPlayAgain;
-    private ImageView mPlayAdvancedAgain;
     private ImageView mGoHome;
     private TextView mScore;
     @Override
@@ -28,31 +26,7 @@ public class GameOverActivity extends AppCompatActivity {
         mMathEquasion = (TextView)findViewById(R.id.mathEquasion);
         Intent intent = getIntent();
         mMathEquasion.setText(intent.getStringExtra(Constants.KEY_MATH_EQ));
-        mPlayAgain = (ImageView)findViewById(R.id.playAgainBtn);
-        mPlayAgain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //play animations
-                YoYo.with(Techniques.Pulse)
-                        .duration(100)
-                        .playOn(findViewById(R.id.playAgainBtn));
-                Intent intent = new Intent(GameOverActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-        mPlayAdvancedAgain = (ImageView)findViewById(R.id.playAdvancedAgainBtn);
-        mPlayAdvancedAgain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //play animations
-                YoYo.with(Techniques.Pulse)
-                        .duration(200)
-                        .playOn(findViewById(R.id.playAdvancedAgainBtn));
-                Intent intent = new Intent(GameOverActivity.this, MainActivity.class);
-                intent.putExtra(Constants.KEY_IS_ADVANCED_MODE, true);
-                startActivity(intent);
-            }
-        });
+
         mScore = (TextView)findViewById(R.id.score);
         mScore.setText("Score: "+intent.getIntExtra(Constants.KEY_SCORE,0));
         mGoHome = (ImageView)findViewById(R.id.goToHome);

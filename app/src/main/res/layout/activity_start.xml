@@ -13,7 +13,8 @@
         android:id="@+id/startGameView"
         android:src="@drawable/play"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignLeft="@+id/linearLayout"
+        android:layout_alignStart="@+id/linearLayout"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -35,7 +36,7 @@
             android:id="@+id/show_leaderboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Leaderboard"/>
+            android:text="Leaderboards"/>
     </LinearLayout>
 
     <LinearLayout
@@ -43,10 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:weightSum="100"
-        android:layout_alignBottom="@+id/startGameView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout2">
+        android:id="@+id/linearLayout2"
+        android:layout_above="@+id/startGameView"
+        android:layout_centerHorizontal="true">
 
         <!-- sign-in button -->
         <com.google.android.gms.common.SignInButton
@@ -71,9 +71,7 @@
         android:src="@drawable/advanced"
         android:id="@+id/advanced_mode_button"
         android:layout_alignBottom="@+id/startGameView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="18dp"
-        android:layout_marginEnd="18dp"/>
+        android:layout_alignRight="@+id/linearLayout"
+        android:layout_alignEnd="@+id/linearLayout"/>
 
 </RelativeLayout>
