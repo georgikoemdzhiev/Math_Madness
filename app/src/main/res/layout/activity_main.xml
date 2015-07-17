@@ -47,10 +47,20 @@
         <com.ctrlplusz.anytextview.AnyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="("
+            android:textSize="40sp"
+            android:textColor="@color/android_white"
+            android:id="@+id/leftBracket"
+            android:visibility="gone"
+            foobar:typeface="JungleFeverNF.otf"/>
+
+        <com.ctrlplusz.anytextview.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="12"
             android:paddingRight="7dp"
             android:textColor="@android:color/white"
-            android:textSize="60sp"
+            android:textSize="50sp"
             android:id="@+id/digitOne"
             foobar:typeface="JungleFeverNF.otf"/>
 
@@ -61,7 +71,7 @@
             android:paddingRight="7dp"
             android:textColor="@android:color/white"
             android:paddingLeft="7dp"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:id="@+id/mathOperator"
             foobar:typeface="JungleFeverNF.otf"/>
 
@@ -72,8 +82,38 @@
             android:paddingRight="7dp"
             android:textColor="@android:color/white"
             android:paddingLeft="7dp"
-            android:textSize="60sp"
+            android:textSize="50sp"
             android:id="@+id/digitTwo"
+            foobar:typeface="JungleFeverNF.otf"/>
+
+        <com.ctrlplusz.anytextview.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=")"
+            android:textSize="40sp"
+            android:textColor="@color/android_white"
+            android:id="@+id/rightBracket"
+            android:visibility="gone"
+            foobar:typeface="JungleFeverNF.otf"/>
+
+        <com.ctrlplusz.anytextview.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:textSize="40sp"
+            android:textColor="@color/android_white"
+            android:id="@+id/mathOperator2"
+            android:visibility="gone"
+            foobar:typeface="JungleFeverNF.otf"/>
+
+        <com.ctrlplusz.anytextview.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13"
+            android:textSize="50sp"
+            android:textColor="@color/android_white"
+            android:id="@+id/digitThree"
+            android:visibility="gone"
             foobar:typeface="JungleFeverNF.otf"/>
 
         <com.ctrlplusz.anytextview.AnyTextView
@@ -83,7 +123,7 @@
             android:paddingRight="7dp"
             android:textColor="@android:color/white"
             android:paddingEnd="7dp"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:id="@+id/equalsOperator"
             foobar:typeface="JungleFeverNF.otf"/>
 
@@ -93,7 +133,7 @@
             android:text="52"
             android:paddingLeft="7dp"
             android:textColor="@android:color/white"
-            android:textSize="60sp"
+            android:textSize="50sp"
             android:id="@+id/sum"
             foobar:typeface="JungleFeverNF.otf"/>
     </LinearLayout>

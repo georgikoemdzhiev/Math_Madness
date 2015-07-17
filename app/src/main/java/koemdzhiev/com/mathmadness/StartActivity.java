@@ -1,9 +1,7 @@
 package koemdzhiev.com.mathmadness;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -22,18 +20,20 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.plus.Plus;
 import com.google.example.games.basegameutils.BaseGameUtils;
 
+import koemdzhiev.com.mathmadness.utils.Constants;
+
 
 public class StartActivity extends AppCompatActivity implements View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
     private static final String TAG = StartActivity.class.getSimpleName();
     private ImageView mPlay;
+    private Button mPlayAdvancedMode;
     private SignInButton mSignInButton;
     private Button mSignOutButton;
     private Button mAchievements;
     private Button mLeaderboard;
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mEditor;
-//    private boolean isConnected;
+//    private SharedPreferences mSharedPreferences;
+//    private SharedPreferences.Editor mEditor;
     // Request code used to invoke sign in user interactions.
     private static final int RC_SIGN_IN = 9001;
 
@@ -54,8 +54,17 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mEditor = mSharedPreferences.edit();
+//        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        mEditor = mSharedPreferences.edit();
+        mPlayAdvancedMode = (Button)findViewById(R.id.advanced_mode_button);
+        mPlayAdvancedMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                intent.putExtra(Constants.KEY_IS_ADVANCED_MODE, true);
+                startActivity(intent);
+            }
+        });
         mSignInButton = (SignInButton)findViewById(R.id.sign_in_button);
         mSignInButton.setOnClickListener(this);
         mSignOutButton = (Button)findViewById(R.id.sign_out_button);
@@ -81,6 +90,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                     Games.Achievements.increment(mGoogleApiClient, getString(R.string.addicted_200_times_play_achievement), 1);
                 }
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                intent.putExtra(Constants.KEY_IS_ADVANCED_MODE,false);
                 startActivity(intent);
             }
         });
@@ -170,8 +180,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             }
         }else if(view.getId() == R.id.show_leaderboard){
             if(mGoogleApiClient.isConnected()) {
-                startActivityForResult(Games.Leaderboards.getLeaderboardIntent(
-                        mGoogleApiClient, getString(R.string.number_of_solved_math_problems_leaderboard)), 2);
+                startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(
+                        mGoogleApiClient), 2);
             }else{
                 alertUserForGoogleSignUp();
             }

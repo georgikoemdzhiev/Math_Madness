@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_id">366360112168</string>
-    <string name="number_of_solved_math_problems_leaderboard">CgkIqNiO5tQKEAIQAQ</string>
+    <string name="normal_mode_leaderboard">CgkIqNiO5tQKEAIQAQ</string>
+    <string name="advanced_mode_leaderboard">CgkIqNiO5tQKEAIQBg</string>
 </resources>

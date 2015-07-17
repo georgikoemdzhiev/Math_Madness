@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/startGameView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="46dp">
+        android:layout_marginBottom="117dp">
         <!-- show achievements -->
         <Button
             android:id="@+id/show_achievements"
@@ -62,4 +62,13 @@
             android:visibility="gone"
             android:layout_weight="50"/>
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADVANCED MODE"
+        android:id="@+id/advanced_mode_button"
+        android:layout_above="@+id/startGameView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="42dp"/>
 </RelativeLayout>

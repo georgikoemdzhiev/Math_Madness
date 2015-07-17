@@ -30,13 +30,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private int isMathProblemTrue;
-    private TextView digitOne;
-    private TextView digitTwo;
-    private TextView mMathOperator;
+    private TextView mDigitOne,mDigitTwo,mDigitThree,mLeftBracket,mRightBracket;
+    private TextView mMathOperator,mMathOperator2;
     private TextView score;
     private TextView mSum;
-    private ImageView mTrueBtn;
-    private ImageView mFalseBtn;
+    private ImageView mTrueBtn,mFalseBtn;
     private ProgressBar mProgressBar;
     private CountDownTimer mCountDownTimer;
     private long timer_length = 5 * 1000;
@@ -45,7 +43,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private Random ifMathProblemTrueRandom;
     private int firstNumber = 0;
     private int secondNumber = 0;
+    private int thirthNumber = 0;
     private int sum = 0;
+    private boolean mIsAdvancedMode = false;
     private long totalMillisUntilFinished = 0;
     private boolean firstTime = true;
     private GoogleApiClient mGoogleApiClient;
@@ -67,7 +67,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 score.setText("Score: " + consecutiveGames);
                 if (mGoogleApiClient.isConnected()) {
                     unlockAchievement();
-                    Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.number_of_solved_math_problems_leaderboard), consecutiveGames);
+                    if(!mIsAdvancedMode) {
+                        Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.normal_mode_leaderboard), consecutiveGames);
+                    }else{
+                        //advanced mode
+                        Games.Leaderboards.submitScore(mGoogleApiClient,getString(R.string.advanced_mode_leaderboard),consecutiveGames);
+                    }
                 }
 
                 //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
@@ -101,7 +106,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 score.setText("Score: " + consecutiveGames);
                 if (mGoogleApiClient.isConnected()) {
                     unlockAchievement();
-                    Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.number_of_solved_math_problems_leaderboard), consecutiveGames);
+                    if(!mIsAdvancedMode) {
+                        Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.normal_mode_leaderboard), consecutiveGames);
+                    }else{
+                        //advanced mode
+                        Games.Leaderboards.submitScore(mGoogleApiClient,getString(R.string.advanced_mode_leaderboard),consecutiveGames);
+                    }
                 }
                 //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                 generateMathProblem();
@@ -131,9 +141,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                         // add other APIs and scopes here as needed
                 .build();
-        digitOne = (TextView) findViewById(R.id.digitOne);
-        digitTwo = (TextView) findViewById(R.id.digitTwo);
+        mDigitOne = (TextView) findViewById(R.id.digitOne);
+        mDigitTwo = (TextView) findViewById(R.id.digitTwo);
+        mDigitThree = (TextView)findViewById(R.id.digitThree);
+        mLeftBracket = (TextView)findViewById(R.id.leftBracket);
+        mRightBracket = (TextView)findViewById(R.id.rightBracket);
         mMathOperator = (TextView) findViewById(R.id.mathOperator);
+        mMathOperator2 = (TextView)findViewById(R.id.mathOperator2);
         score = (TextView) findViewById(R.id.score);
         score.setText("Score: " + consecutiveGames);
         mSum = (TextView) findViewById(R.id.sum);
@@ -149,7 +163,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mTrueBtn.setOnClickListener(trueButtonListener);
 
         mFalseBtn.setOnClickListener(falseButtonListener);
-
+        //get the starting intend and the boolean extra, false is default
+        mIsAdvancedMode = getIntent().getBooleanExtra(Constants.KEY_IS_ADVANCED_MODE,false);
+        if(mIsAdvancedMode){
+            showAdvancedModeFeatures();
+        }else{
+            hideAdvancedModeFeatures();
+        }
         generateMathProblem();
 
     }
@@ -206,36 +226,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void generateMathProblem() {
         //does not include division
-        //generate math problem
+        //generate true math problem
         isMathProblemTrue = ifMathProblemTrueRandom.nextInt(2);
         Log.d(TAG, "Math problem true?: " + isMathProblemTrue);
         if (isMathProblemTrue == 1) {
             //generate true equation
-            int generateRandomMathOperator = new Random().nextInt(3);
+            int generateRandomMathOperator = generateMathOperatorInteger();
             int total = 0;
             firstNumber = new Random().nextInt(10) + 1;
             secondNumber = new Random().nextInt(10) + 1;
             //Log.d(TAG, "randomMathNumber" + generateRandomMathOperator);
-            switch (generateRandomMathOperator) {
-                case 0:
-                    mMathOperator.setText("+");
-                    total = firstNumber + secondNumber;
-                    break;
-                case 1:
-                    mMathOperator.setText("-");
-                    total = firstNumber - secondNumber;
-                    break;
-                case 2:
-                    mMathOperator.setText("*");
-                    total = firstNumber * secondNumber;
-                    break;
+            total = generateMathOperator(generateRandomMathOperator, total);
+            if(mIsAdvancedMode){
+                thirthNumber = new Random().nextInt(10)+1;
+                total = generateMathOperatorForAdvancedMode(generateMathOperatorInteger(),total);
+                mDigitThree.setText(thirthNumber+"");
             }
-            digitOne.setText(firstNumber + "");
-            digitTwo.setText(secondNumber + "");
+            mDigitOne.setText(firstNumber + "");
+            mDigitTwo.setText(secondNumber + "");
             mSum.setText(total + "");
         } else {
             // generate false equation
-            int generateRandomMathOperator = new Random().nextInt(3);
+            int generateRandomMathOperator = generateMathOperatorInteger();
             //Log.d(TAG, "randomMathNumber" + generateRandomMathOperator);
             switch (generateRandomMathOperator) {
                 case 0:
@@ -256,30 +268,66 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 Log.d(TAG, "while loop..." + counter);
                 firstNumber = new Random().nextInt(10) + 1;
                 secondNumber = new Random().nextInt(10) + 1;
-                //56 random number here...
-                sum = new Random().nextInt(20) + 1;
 
-                switch (generateRandomMathOperator) {
-                    case 0:
-                        total = firstNumber + secondNumber;
-                        break;
-                    case 1:
-                        total = firstNumber - secondNumber;
-                        break;
-                    case 2:
-                        total = firstNumber * secondNumber;
-                        break;
+                //21 random number here...
+                sum = new Random().nextInt(20) + 1;
+                total = generateMathOperator(generateRandomMathOperator, total);
+                if(mIsAdvancedMode){
+                    thirthNumber = new Random().nextInt(10)+1;
+                    total = generateMathOperatorForAdvancedMode(generateMathOperatorInteger(),total);
+                    mDigitThree.setText(thirthNumber+"");
                 }
                 boolean isItTrue = total == sum;
-                if (isItTrue == false) {
+                if (!isItTrue) {
                     equasionIsTrue = false;
                 }
             }
-            digitOne.setText(firstNumber + "");
-            digitTwo.setText(secondNumber + "");
+            mDigitOne.setText(firstNumber + "");
+            mDigitTwo.setText(secondNumber + "");
             mSum.setText(sum + "");
         }
 
+    }
+
+    private int generateMathOperatorInteger() {
+        return new Random().nextInt(3);
+    }
+
+    private int generateMathOperator(int generateRandomMathOperator, int total) {
+        switch (generateRandomMathOperator) {
+            case 0:
+                mMathOperator.setText("+");
+                total = firstNumber + secondNumber;
+                break;
+            case 1:
+                mMathOperator.setText("-");
+                total = firstNumber - secondNumber;
+                break;
+            case 2:
+                mMathOperator.setText("*");
+                total = firstNumber * secondNumber;
+                break;
+        }
+        return total;
+    }
+    //generate the second math operator that is used for advanced mode
+    //it uses the previous value of the total
+    private int generateMathOperatorForAdvancedMode(int generateRandomMathOperator, int total) {
+        switch (generateRandomMathOperator) {
+            case 0:
+                mMathOperator2.setText("+");
+                total += thirthNumber;
+                break;
+            case 1:
+                mMathOperator2.setText("-");
+                total -= thirthNumber;
+                break;
+            case 2:
+                mMathOperator2.setText("*");
+                total *= thirthNumber;
+                break;
+        }
+        return total;
     }
 
     @Override
@@ -297,11 +345,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void transferUserToStartScreen(String str) {
-        String toBeSend = "";
+        String toBeSend;
         if (!str.equals("Time's up!")) {
-            //Toast.makeText(MainActivity.this,"Incorrect!",Toast.LENGTH_SHORT).show();
-            toBeSend = digitOne.getText().toString() + mMathOperator.getText().toString() +
-                    digitTwo.getText().toString() + "=" + mSum.getText().toString();
+            if(!mIsAdvancedMode) {
+                toBeSend = mDigitOne.getText().toString() + mMathOperator.getText().toString() +
+                        mDigitTwo.getText().toString() + "=" + mSum.getText().toString();
+            }else{
+                toBeSend = "("+mDigitOne.getText().toString() + mMathOperator.getText().toString() +
+                        mDigitTwo.getText().toString() + ")" + mMathOperator2.getText().toString() + mDigitThree.getText().toString() +
+                        "=" + mSum.getText().toString();
+            }
         } else {
             toBeSend = str;
         }
@@ -318,20 +371,26 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void speedUpTimer() {
-        if (timer_length > 3000) {
-            timer_length -= 500;
-        }
-        if (consecutiveGames == 10) {
-            timer_length -= 500;
-        }
-        if (consecutiveGames == 15) {
-            timer_length -= 500;
-        }
-        if(consecutiveGames == 20){
-            timer_length -= 300;
-        }
-        if(consecutiveGames == 30){
-            timer_length -= 300;
+        if(!mIsAdvancedMode) {
+            if (timer_length > 3000) {
+                timer_length -= 500;
+            }
+            if (consecutiveGames == 10) {
+                timer_length -= 500;
+            }
+            if (consecutiveGames == 15) {
+                timer_length -= 500;
+            }
+            if (consecutiveGames == 20) {
+                timer_length -= 300;
+            }
+            if (consecutiveGames == 30) {
+                timer_length -= 300;
+            }
+        }else{
+            if (timer_length > 3000) {
+                timer_length -= 500;
+            }
         }
     }
 
@@ -369,6 +428,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         };
     }
 
+    private void showAdvancedModeFeatures(){
+        mLeftBracket.setVisibility(View.VISIBLE);
+        mRightBracket.setVisibility(View.VISIBLE);
+        mDigitThree.setVisibility(View.VISIBLE);
+        mMathOperator2.setVisibility(View.VISIBLE);
+    }
+    private void hideAdvancedModeFeatures(){
+        mLeftBracket.setVisibility(View.GONE);
+        mRightBracket.setVisibility(View.GONE);
+        mDigitThree.setVisibility(View.GONE);
+        mMathOperator2.setVisibility(View.GONE);
+    }
     @Override
     public void onConnected(Bundle bundle) {
 
