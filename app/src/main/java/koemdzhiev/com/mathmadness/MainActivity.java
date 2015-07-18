@@ -20,7 +20,6 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
-import com.google.example.games.basegameutils.BaseGameUtils;
 
 import java.util.Random;
 
@@ -371,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Intent intent = new Intent(MainActivity.this, GameOverActivity.class);
         intent.putExtra(Constants.KEY_MATH_EQ, toBeSend);
         intent.putExtra(Constants.KEY_SCORE, consecutiveGames);
+        intent.putExtra(Constants.KEY_IS_ADVANCED_MODE,mIsAdvancedMode);
         startActivity(intent);
     }
 
@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        BaseGameUtils.resolveConnectionFailure(this, mGoogleApiClient,
-                connectionResult, RC_SIGN_IN, getString(R.string.signin_other_error));
+//        BaseGameUtils.resolveConnectionFailure(this, mGoogleApiClient,
+//                connectionResult, RC_SIGN_IN, getString(R.string.signin_other_error));
     }
 }

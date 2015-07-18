@@ -15,7 +15,7 @@
         android:textColor="@android:color/white"
         android:id="@+id/score"
         foobar:typeface="JungleFeverNF.otf"
-        android:layout_marginTop="183dp"
+        android:layout_marginTop="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
 
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="You are wrong!"
+        android:text="GAME OVER!"
         android:textColor="@android:color/white"
         android:id="@+id/userIsWrontTextView"
         foobar:typeface="JungleFeverNF.otf"
@@ -42,13 +42,29 @@
         android:layout_below="@+id/score"
         android:layout_centerHorizontal="true"/>
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/goToHome"
-        android:src="@drawable/home_icon"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:weightSum="100"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/goToHome"
+            android:src="@drawable/home_icon"
+            android:layout_weight="50"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/play_again"
+            android:layout_weight="50"
+            android:src="@drawable/play"/>
+    </LinearLayout>
 
 
 </RelativeLayout>

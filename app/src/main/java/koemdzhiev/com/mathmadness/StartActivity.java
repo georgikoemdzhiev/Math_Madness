@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -61,9 +59,9 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 //play animations
-                YoYo.with(Techniques.Pulse)
-                        .duration(200)
-                        .playOn(findViewById(R.id.advanced_mode_button));
+//                YoYo.with(Techniques.Pulse)
+//                        .duration(200)
+//                        .playOn(findViewById(R.id.advanced_mode_button));
                 incrementAchievement();
                 
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
@@ -87,10 +85,10 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         mPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //play animations
-                YoYo.with(Techniques.Pulse)
-                        .duration(200)
-                        .playOn(findViewById(R.id.startGameView));
+//                //play animations
+//                YoYo.with(Techniques.Pulse)
+//                        .duration(200)
+//                        .playOn(findViewById(R.id.startGameView));
                 incrementAchievement();
 
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
