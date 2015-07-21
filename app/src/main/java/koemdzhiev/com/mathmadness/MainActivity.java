@@ -67,13 +67,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mScore.setText("Score: " + consecutiveGames);
                 if (mGoogleApiClient.isConnected()) {
                     unlockAchievement();
-                    if(!mIsAdvancedMode) {
-                        //normal mode
-                        Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.normal_mode_leaderboard), consecutiveGames);
-                    }else{
-                        //advanced mode
-                        Games.Leaderboards.submitScore(mGoogleApiClient,getString(R.string.advanced_mode_leaderboard),consecutiveGames);
-                    }
+                    submitScoreToGooglePlayGames();
                 }
 
                 //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
@@ -91,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         }
     };
+
     private View.OnClickListener falseButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -107,12 +102,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mScore.setText("Score: " + consecutiveGames);
                 if (mGoogleApiClient.isConnected()) {
                     unlockAchievement();
-                    if(!mIsAdvancedMode) {
-                        Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.normal_mode_leaderboard), consecutiveGames);
-                    }else{
-                        //advanced mode
-                        Games.Leaderboards.submitScore(mGoogleApiClient,getString(R.string.advanced_mode_leaderboard),consecutiveGames);
-                    }
+                    submitScoreToGooglePlayGames();
                 }
                 //Toast.makeText(MainActivity.this,"Correct!",Toast.LENGTH_SHORT).show();
                 generateMathProblem();
@@ -192,6 +182,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
         if (consecutiveGames == 50) {
             Games.Achievements.unlock(mGoogleApiClient, getString(R.string.score_50_achievement));
+        }
+    }
+
+    private void submitScoreToGooglePlayGames() {
+        if(!mIsAdvancedMode) {
+            //normal mode
+            Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.normal_mode_leaderboard), consecutiveGames);
+        }else{
+            //advanced mode
+            Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.advanced_mode_leaderboard), consecutiveGames);
         }
     }
 
