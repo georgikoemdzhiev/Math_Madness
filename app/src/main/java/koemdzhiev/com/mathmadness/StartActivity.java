@@ -1,6 +1,9 @@
 package koemdzhiev.com.mathmadness;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -118,7 +121,10 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+
+        if(isNetworkAvailable()) {
+            mGoogleApiClient.connect();
+        }
     }
     protected void onStop() {
         Log.d(TAG, "onStop()");
@@ -234,6 +240,13 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         }
         showSignInBar();
     }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
         if (requestCode == RC_SIGN_IN) {
             Log.d(TAG, "onActivityResult with requestCode == RC_SIGN_IN, responseCode="
