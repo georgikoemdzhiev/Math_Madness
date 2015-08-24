@@ -43,27 +43,7 @@
     </LinearLayout>
 
      <!-- sign-in button -->
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/sign_in_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="50"
-            android:layout_above="@+id/advanced_mode_button"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="40dp"/>
-        <!-- sign-out button -->
-        <Button
-            android:id="@+id/sign_out_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign Out"
-            android:visibility="visible"
-            android:layout_weight="50"
-            android:layout_toEndOf="@id/sign_in_button"
-            android:layout_alignTop="@+id/sign_in_button"
-            android:layout_alignBottom="@+id/sign_in_button"
-            android:layout_alignRight="@+id/sign_in_button"
-            android:layout_alignLeft="@+id/sign_in_button"/>
+    <!-- sign-out button -->
 
 
     <ImageView
@@ -76,5 +56,28 @@
         android:layout_alignEnd="@+id/linearLayout"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="50"
+        android:layout_above="@+id/advanced_mode_button"
+        android:layout_centerHorizontal="true">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"/>
+
+        <Button
+            android:id="@+id/sign_out_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Out"
+            android:visibility="gone"
+            android:layout_weight="50"/>
+    </LinearLayout>
 
 </RelativeLayout>
