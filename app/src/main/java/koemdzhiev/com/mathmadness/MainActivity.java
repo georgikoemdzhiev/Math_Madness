@@ -183,6 +183,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (consecutiveGames == 50) {
             Games.Achievements.unlock(mGoogleApiClient, getString(R.string.score_50_achievement));
         }
+        if(consecutiveGames == 70){
+            Games.Achievements.unlock(mGoogleApiClient,getString(R.string.score_70_achievement));
+        }
     }
 
     private void submitScoreToGooglePlayGames() {

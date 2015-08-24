@@ -138,13 +138,13 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     private void showSignInBar() {
         Log.d(TAG, "Showing sign in bar");
         findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-        findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+        findViewById(R.id.sign_out_button).setVisibility(View.INVISIBLE);
     }
 
     // Shows the "sign out" bar (explanation and button).
     private void showSignOutBar() {
         Log.d(TAG, "Showing sign out bar");
-        findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+        findViewById(R.id.sign_in_button).setVisibility(View.INVISIBLE);
         findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
     }
 
