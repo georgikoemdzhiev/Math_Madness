@@ -80,4 +80,13 @@
             android:layout_weight="50"/>
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="350dp"
+        android:layout_height="150dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/math_madness_grafity"
+        android:layout_above="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="74dp"/>
+
 </RelativeLayout>
